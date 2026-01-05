@@ -59,9 +59,15 @@
         .row-stats { flex-shrink: 0; text-align: right; }
         .row-playtime { font-size: 20px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
+        .rank-top { color: var(--accent-pink); }
 
         /* --- FOCUS CARDS --- */
         .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
+        .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
+        .focus-info { flex-grow: 1; z-index: 2; }
+        .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
+        .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
         .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
 
         /* --- FICHE DÉTAIL --- */
@@ -76,11 +82,23 @@
 
         /* --- APERÇU SPECIFIC --- */
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
         .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 110px; padding: 20px 0 10px; margin-top: 10px; }
         .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; gap: 6px; }
         .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
         .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.8; min-height: 4px; transition: height 0.3s ease; }
         .bar.weekend { background: var(--accent-pink); }
+        .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
+
+        /* --- COLLECTION TOOLS --- */
+        .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
+        .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
+        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
+        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
+        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
+        .chip-btn.active.nintendo { background: var(--chip-nintendo); color: white; }
+        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
 
         /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
@@ -148,7 +166,7 @@
                 <div class="week-chart" id="rollingChart"></div>
             </div>
             <h2>Santé de la Collection</h2>
-            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">34.2%</div><div class="health-bar-full"><div style="width:34%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (58)</span><span>EN COURS (22)</span></div></div>
+            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">38.4%</div><div class="health-bar-full"><div style="width:38%; background:var(--accent-pink); height:100%;"></div><div style="width:15%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (62)</span><span>EN COURS (18)</span></div></div>
             <h2>L'ADN du Joueur</h2>
             <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">68% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
             <h2>Répartition Écosystème</h2>
@@ -156,7 +174,7 @@
             <h2>Record de Fidélité</h2>
             <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Red Dead Redemption 2')">
                 <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
-                <div><span class="bento-label">Jeu le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">Red Dead Redemption 2</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Cumul multi-plateformes : 344h</div></div>
+                <div><span class="bento-label">Jeu le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">Red Dead Redemption 2</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Cumul multi-plateformes : 344.8h</div></div>
             </div>
         </section>
     </main>
@@ -170,26 +188,21 @@
     <script>
         const gamesData = [
             // --- ACTIVITÉ RÉCENTE (STEAM) ---
-            { name: "CrossCode", sH: 15.4, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736091000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 15, desc: "L'Action-RPG néo-rétro ultime." },
+            { name: "CrossCode", sH: 15.4, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736092000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 15, desc: "L'Action-RPG néo-rétro ultime avec un gameplay nerveux et une histoire fascinante." },
             
-            // --- TOP NINTENDO SWITCH (FIXED POSTERS) ---
-            { name: "Zelda TOTK", sH: 0, pH: 0, nH: 135, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_TheLegendOfZeldaTearsOfTheKingdom_v2x1.jpg", last: 1735850000, color: "#00a859", dev: "Nintendo", rel: 2023, comp: 45, desc: "Explorez les cieux d'Hyrule." },
-            { name: "Zelda BOTW", sH: 0, pH: 0, nH: 150, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_TheLegendOfZeldaBreathOfTheWild_v2x1.jpg", last: 1720000000, color: "#00a859", dev: "Nintendo", rel: 2017, comp: 100, desc: "L'éveil d'Hyrule." },
-            { name: "Animal Crossing", sH: 0, pH: 0, nH: 30, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_AnimalCrossingNewHorizons_v2x1.jpg", last: 1715000000, color: "#ffc0cb", dev: "Nintendo", rel: 2020, comp: 30, desc: "Votre île déserte." },
-            { name: "Mario Kart World", sH: 0, pH: 0, nH: 15, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_MarioKart8Deluxe_v2x1.jpg", last: 1730000000, color: "#e60012", dev: "Nintendo", rel: 2014, comp: 80, desc: "Course déjantée." },
-            { name: "Super Mario Wonder", sH: 0, pH: 0, nH: 4, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_SuperMarioBrosWonder_v2x1.jpg", last: 1735100000, color: "#e60012", dev: "Nintendo", rel: 2023, comp: 10, desc: "L'inattendu à chaque pas." },
-            { name: "Children of Morta", sH: 0, pH: 0, nH: 2, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/330020/library_600x900.jpg", last: 1710000000, color: "#9c27b0", dev: "Dead Mage", rel: 2019, comp: 5, desc: "Une famille de héros." },
-            { name: "Prince of Persia TLC", sH: 0, pH: 0, nH: 10, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2116690/library_600x900.jpg", last: 1735200000, color: "#ffeb3b", dev: "Ubisoft", rel: 2024, comp: 20, desc: "Maitrisez le temps." },
-            { name: "Heave Ho", sH: 0, pH: 0, nH: 15, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/905340/library_600x900.jpg", last: 1725000000, color: "#4caf50", dev: "Le Cartel Studio", rel: 2019, comp: 60, desc: "Ne lâchez pas !" },
-            { name: "HK: Silksong", sH: 0, pH: 0, nH: 10, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/library_600x900.jpg", last: 1735000000, color: "#ff5722", dev: "Team Cherry", rel: 2025, comp: 0, desc: "Le voyage de Hornet." },
-            { name: "Donkey Kong Bananza", sH: 0, pH: 0, nH: 3, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_DonkeyKongCountryTropicalFreeze_v2x1.jpg", last: 1718000000, color: "#795548", dev: "Retro Studios", rel: 2014, comp: 15, desc: "Action plateforme intense." },
+            // --- TOP PLAYSTATION & STEAM (CUMULÉ) ---
+            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée d'Arthur Morgan dans l'Amérique sauvage en déclin." },
+            { name: "Grand Theft Auto V", sH: 0, pH: 342, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg", last: 1700000000, color: "#25d366", dev: "Rockstar Games", rel: 2013, comp: 100, desc: "Le monument du monde ouvert de Rockstar Games." },
+            { name: "ELDEN RING", sH: 132.6, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735982000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Le chef-d'œuvre de FromSoftware en monde ouvert." },
+            { name: "Lords of the Fallen", sH: 9.2, pH: 91, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1735990000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Un action-RPG sombre à travers des mondes interconnectés." },
 
-            // --- AUTRES TITRES (PLAYSTATION & STEAM) ---
-            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "La fin sauvage de l'Ouest." },
-            { name: "ELDEN RING", sH: 132.6, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735990000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Devenez le Seigneur d'Elden." },
-            { name: "Grand Theft Auto V", sH: 0, pH: 342, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg", last: 1700000000, color: "#25d366", dev: "Rockstar Games", rel: 2013, comp: 100, desc: "Épopée criminelle culte." },
-            { name: "MGS V: Phantom Pain", sH: 0, pH: 121, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1735000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Infiltration ultime." },
-            { name: "Lords of the Fallen", sH: 9.2, pH: 91, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1735982000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Action RPG sombre." }
+            // --- NINTENDO SWITCH (FIXED JAQUETTES) ---
+            { name: "Zelda BOTW", sH: 0, pH: 0, nH: 150, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_TheLegendOfZeldaBreathOfTheWild_v2x1.jpg", last: 1720000000, color: "#00a859", dev: "Nintendo", rel: 2017, comp: 100, desc: "L'aventure qui a redéfini le monde ouvert." },
+            { name: "Zelda TOTK", sH: 0, pH: 0, nH: 135, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_TheLegendOfZeldaTearsOfTheKingdom_v2x1.jpg", last: 1735850000, color: "#00a859", dev: "Nintendo", rel: 2023, comp: 45, desc: "Envolez-vous au-dessus d'Hyrule dans cette suite épique." },
+            { name: "Animal Crossing", sH: 0, pH: 0, nH: 30, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_AnimalCrossingNewHorizons_v2x1.jpg", last: 1715000000, color: "#ffc0cb", dev: "Nintendo", rel: 2020, comp: 30, desc: "Votre havre de paix insulaire." },
+            { name: "Mario Kart World", sH: 0, pH: 0, nH: 15, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_MarioKart8Deluxe_v2x1.jpg", last: 1730000000, color: "#e60012", dev: "Nintendo", rel: 2014, comp: 80, desc: "La référence absolue du jeu de course en famille." },
+            { name: "Heave Ho", sH: 0, pH: 0, nH: 15, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/905340/library_600x900.jpg", last: 1725000000, color: "#4caf50", dev: "Le Cartel Studio", rel: 2019, comp: 60, desc: "Un party-game basé sur la physique et la coopération." },
+            { name: "Super Mario Wonder", sH: 0, pH: 0, nH: 4, img: "https://www.nintendo.com/eu/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NS_SuperMarioBrosWonder_v2x1.jpg", last: 1735100000, color: "#e60012", dev: "Nintendo", rel: 2023, comp: 10, desc: "La nouvelle révolution 2D de Mario." }
         ];
 
         let activePlatform = null;
@@ -212,7 +225,7 @@
             document.getElementById('sh-rank').innerText = "#"+rank;
             document.getElementById('sh-dev').innerText = g.dev || "Studio";
             document.getElementById('sh-rel').innerText = g.rel || "----";
-            document.getElementById('sh-desc').innerText = g.desc || "Description non disponible.";
+            document.getElementById('sh-desc').innerText = g.desc || "Description détaillée non disponible.";
             document.getElementById('sh-comp-text').innerText = (g.comp||0)+"%";
             document.getElementById('sh-comp-fill').style.width = (g.comp||0)+"%";
             document.getElementById('sh-halo').style.setProperty('--sheet-color', g.color);
