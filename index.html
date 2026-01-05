@@ -45,7 +45,7 @@
         .bento-label { font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
 
-        /* --- FOCUS CARDS (Aura Restored) --- */
+        /* --- FOCUS CARDS (Aura & Design Restored) --- */
         .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
@@ -68,6 +68,7 @@
         .row-stats { flex-shrink: 0; text-align: right; }
         .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
+        .rank-top { color: var(--accent-pink); }
 
         /* --- FICHE DÉTAIL --- */
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
@@ -99,7 +100,7 @@
         .chip-btn.active.nintendo { background: var(--chip-nintendo); color: white; }
         .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
 
-        /* --- NAVBAR LIQUID GLASS --- */
+        /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
         .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
         .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
@@ -111,7 +112,6 @@
 </head>
 <body>
     <div class="bg-glow"></div>
-    
     <div id="sheet-overlay" onclick="closeSheet()"></div>
     <div id="game-sheet">
         <div style="width:40px;height:5px;background:rgba(255,255,255,0.2);border-radius:10px;margin:-5px auto 25px;"></div>
@@ -176,9 +176,9 @@
             <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:10px; height:100px; margin:10px 0;"><div style="flex:1; background:var(--chip-steam); height:65%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">65%</div><div style="flex:1; background:var(--chip-ps5); height:30%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">30%</div><div style="flex:1; background:var(--chip-nintendo); height:5%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">5%</div></div><div style="display:flex; justify-content:space-between; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PS5</span><span>SWITCH</span></div></div>
 
             <h2>Record de Fidélité</h2>
-            <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Elden Ring')">
-                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
-                <div><span class="bento-label">Jeu le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">Elden Ring</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Lancé chaque semaine depuis 2 ans</div></div>
+            <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Grand Theft Auto V')">
+                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
+                <div><span class="bento-label">Jeu le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">Grand Theft Auto V</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Lancé chaque semaine depuis 2 ans</div></div>
             </div>
         </section>
     </main>
@@ -191,14 +191,21 @@
 
     <script>
         const gamesData = [
-            { name: "Elden Ring", sH: 145, pH: 100, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1736082000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Levez-vous, Sans-éclat, et puisse la grâce guider vos pas vers le Cercle d'Elden." },
-            { name: "The Witcher 3", sH: 180, pH: 30, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/292030/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "CD PROJEKT RED", rel: 2015, comp: 100, desc: "Geralt de Riv, chasseur de monstres, cherche l'enfant de la prophétie." },
-            { name: "Zelda: TotK", sH: 0, pH: 0, nH: 124, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1735850000, color: "#00a859", dev: "Nintendo", rel: 2023, comp: 45, desc: "Explorez les cieux et les terres d'Hyrule dans cette suite épique." },
-            { name: "Cyberpunk 2077", sH: 156, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/library_600x900.jpg", last: 1735800000, color: "#f3e600", dev: "CD PROJEKT RED", rel: 2020, comp: 65, desc: "Un mercenaire cherche un implant d'immortalité dans Night City." },
-            { name: "Baldur's Gate 3", sH: 120, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/library_600x900.jpg", last: 1735700000, color: "#c0c0c0", dev: "Larian Studios", rel: 2023, comp: 35, desc: "Rassemblez votre groupe dans cette aventure D&D ultime." },
-            { name: "Sekiro", sH: 88, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814380/library_600x900.jpg", last: 1734500000, color: "#9c8c7c", dev: "FromSoftware", rel: 2019, comp: 92, desc: "Vengez votre honneur dans le Japon de l'ère Sengoku." }
+            { name: "Grand Theft Auto V", sH: 0, pH: 342, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg", last: 1736082000, color: "#25d366", dev: "Rockstar Games", rel: 2013, comp: 100, desc: "Explorez Los Santos et Blaine County dans cette aventure en monde ouvert légendaire." },
+            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "Arthur Morgan et la bande de Van der Linde tentent de survivre à la fin de l'ère des hors-la-loi." },
+            { name: "ELDEN RING", sH: 132.6, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735982000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Levez-vous, Sans-éclat, et puisse la grâce guider vos pas vers le Cercle d'Elden." },
+            { name: "MGS V: The Phantom Pain", sH: 0, pH: 121, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1735000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Incarnez Venom Snake dans cette expérience d'infiltration ultime en monde ouvert." },
+            { name: "The Division", sH: 0, pH: 112, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/365590/library_600x900.jpg", last: 1734000000, color: "#ff8c00", dev: "Massive Entertainment", rel: 2016, comp: 100, desc: "Reprenez New York après une pandémie dévastatrice dans ce looter shooter tactique." },
+            { name: "Lords of the Fallen", sH: 9.2, pH: 91, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1735800000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Une vaste aventure RPG d'action dans des mondes interconnectés entre les vivants et les morts." },
+            { name: "Watch Dogs 2", sH: 0, pH: 88, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/447040/library_600x900.jpg", last: 1733000000, color: "#00bfff", dev: "Ubisoft", rel: 2016, comp: 100, desc: "Utilisez le piratage comme arme dans la baie de San Francisco." },
+            { name: "DSX", sH: 84.8, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1812620/library_600x900.jpg", last: 1735990000, color: "#ffffff", dev: "Steam", rel: 2024, comp: 50, desc: "Expérience interactive Steam Controller." },
+            { name: "Hades II", sH: 65, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/library_600x900.jpg", last: 1735950000, color: "#00ffcc", dev: "Supergiant Games", rel: 2024, comp: 50, desc: "Affrontez le Titan du Temps dans cette suite envoûtante." },
+            { name: "The Last of Us Part II", sH: 0, pH: 69, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735200000, color: "#4f4f4f", dev: "Naughty Dog", rel: 2020, comp: 100, desc: "Un voyage viscéral et émotionnel dans un monde post-pandémique." }
         ];
-        for(let i=0; i<24; i++) { gamesData.push({...gamesData[i%5], name: gamesData[i%5].name + " " + (i+2), last: 1730000000 - (i*100000)}); }
+        // Ajout de placeholders pour atteindre 30 jeux
+        for(let i=11; i<=30; i++) {
+            gamesData.push({ name: "Game " + i, sH: Math.floor(Math.random()*20), pH: Math.floor(Math.random()*20), nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1730000000 - (i*100000), color: "#8E8E93", dev: "Dev " + i, rel: 2020 + (i%5), comp: Math.floor(Math.random()*100), desc: "Description du jeu " + i });
+        }
 
         let activePlatform = null;
 
@@ -208,19 +215,20 @@
             const rank = ranked.findIndex(rg => rg.name === game.name) + 1;
             const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
             let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '') + (game.nH > 0 ? `<span class="chip tag-nintendo">NINTENDO</span>` : '');
-            return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
+            return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
         }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
-            const rank = [...gamesData].sort((a,b) => (b.sH+b.pH+b.nH) - (a.sH+a.pH+a.nH)).findIndex(x => x.name === name) + 1;
+            const ranked = [...gamesData].sort((a,b) => (b.sH+b.pH+b.nH) - (a.sH+a.pH+a.nH));
+            const rank = ranked.findIndex(x => x.name === name) + 1;
             document.getElementById('sh-img').src = g.img;
             document.getElementById('sh-title').innerText = g.name;
-            document.getElementById('sh-hours').innerText = (g.sH+g.pH+g.nH)+"h";
+            document.getElementById('sh-hours').innerText = (g.sH+g.pH+g.nH).toFixed(0)+"h";
             document.getElementById('sh-rank').innerText = "#"+rank;
             document.getElementById('sh-dev').innerText = g.dev || "Studio";
-            document.getElementById('sh-rel').innerText = g.rel || "2024";
-            document.getElementById('sh-desc').innerText = g.desc || "Description détaillée non disponible.";
+            document.getElementById('sh-rel').innerText = g.rel || "----";
+            document.getElementById('sh-desc').innerText = g.desc || "Aucune description disponible.";
             document.getElementById('sh-comp-text').innerText = (g.comp||0)+"%";
             document.getElementById('sh-comp-fill').style.width = (g.comp||0)+"%";
             document.getElementById('sh-halo').style.setProperty('--sheet-color', g.color);
@@ -236,7 +244,7 @@
         function updateCollectionUI() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortSelect').value;
-            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform.charAt(0).toLowerCase()+'H']>0) : true));
+            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (activePlatform==='steam'?g.sH>0:activePlatform==='ps5'?g.pH>0:g.nH>0) : true));
             filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH+b.nH)-(a.sH+a.pH+a.nH))));
             document.getElementById('collection-list').innerHTML = filtered.map(g => createGameRow(g, activePlatform)).join('');
         }
@@ -252,7 +260,7 @@
                         <span class="focus-label">${label}: ${dateStr}</span>
                         <div class="focus-title">${g.name}</div>
                         <div style="margin-bottom:8px;">${tags}</div>
-                        <div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${g.sH+g.pH+g.nH}H</div>
+                        <div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${(g.sH+g.pH+g.nH).toFixed(0)}H</div>
                     </div>
                 </div>`;
         }
@@ -274,7 +282,7 @@
             const chrono = [...gamesData].sort((a,b) => b.last - a.last);
             renderFocusCard('current-focus', chrono[0], "DERNIÈRE SESSION");
             document.getElementById('discover-list').innerHTML = chrono.slice(0, 5).map(g => createGameRow(g)).join('');
-            renderFocusCard('return-focus', gamesData[5], "PAS RELANCÉ DEPUIS");
+            renderFocusCard('return-focus', gamesData[6], "PAS RELANCÉ DEPUIS");
             updateCollectionUI(); renderRollingChart();
         }
         initUI();
