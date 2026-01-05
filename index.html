@@ -45,7 +45,7 @@
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
 
         /* --- FOCUS CARDS --- */
-        .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 15px; cursor: pointer; }
+        .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
         .focus-info { flex-grow: 1; z-index: 2; }
@@ -66,7 +66,6 @@
         .row-stats { flex-shrink: 0; text-align: right; }
         .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
-        .rank-top { color: var(--accent-pink); }
 
         /* --- APERÇU SPECIFIC --- */
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
@@ -78,7 +77,7 @@
         .bar.weekend { background: var(--accent-pink); }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
-        /* --- FICHE DÉTAIL XXL --- */
+        /* --- FICHE DÉTAIL --- */
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
         #game-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 88vh; background: #080808; border-radius: 32px 32px 0 0; z-index: 9001; transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.3, 0, 0.2, 1); overflow-y: auto; padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
         .sh-halo { position: absolute; top: -10%; left: 0; width: 100%; height: 40%; background: radial-gradient(circle at center, var(--sheet-color, var(--accent-pink)) 0%, transparent 75%); filter: blur(60px); opacity: 0.4; z-index: -1; }
@@ -88,15 +87,6 @@
         .sh-grid-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
         .sh-meta-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* --- COLLECTION TOOLS --- */
-        .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
-        .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
-        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
-        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
-        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
-        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
-
         /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
         .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
@@ -104,7 +94,6 @@
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
         .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
         .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
-        .cta-full { width: 100%; padding: 20px; background: var(--accent-pink); border: none; border-radius: 24px; color: white; font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
