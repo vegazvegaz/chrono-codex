@@ -38,23 +38,19 @@
         h2 { font-size: 18px; font-weight: 800; margin: 35px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.9); }
         .date { font-size: 10px; font-weight: 800; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; display: block; padding-top: 20px; }
 
-        /* --- BENTO --- */
         .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; }
         .bento-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 15px; display: flex; flex-direction: column; justify-content: center; }
-        .bento-emoji { font-size: 22px; margin-bottom: 8px; display: block; }
         .bento-label { font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
 
-        /* --- FOCUS CARDS --- */
         .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
-        .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
         .focus-info { flex-grow: 1; z-index: 2; }
         .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
         .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
         .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
 
-        /* --- LISTE JV --- */
         .game-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .game-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
         .row-poster { width: 80px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
@@ -64,13 +60,9 @@
         .chip { font-size: 8px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: #FFF; margin-right: 6px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
-        .tag-nintendo { background: var(--chip-nintendo); }
-        .row-stats { flex-shrink: 0; text-align: right; }
         .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
-        .rank-top { color: var(--accent-pink); }
 
-        /* --- FICHE DÉTAIL --- */
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
         #game-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 88vh; background: #080808; border-radius: 32px 32px 0 0; z-index: 9001; transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.3, 0, 0.2, 1); overflow-y: auto; padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
         .sh-halo { position: absolute; top: -10%; left: 0; width: 100%; height: 40%; background: radial-gradient(circle at center, var(--sheet-color, var(--accent-pink)) 0%, transparent 75%); filter: blur(60px); opacity: 0.4; z-index: -1; }
@@ -80,27 +72,22 @@
         .sh-grid-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
         .sh-meta-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* --- APERÇU SPECIFIC --- */
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-        .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
-        .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 110px; padding: 20px 0 10px; margin-top: 10px; }
-        .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; gap: 6px; }
+        .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 110px; padding: 0 5px; margin-top: 25px; }
+        .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; height: 100%; justify-content: flex-end; gap: 6px; }
         .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
         .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.8; min-height: 4px; transition: height 0.3s ease; }
         .bar.weekend { background: var(--accent-pink); }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
-        /* --- COLLECTION TOOLS --- */
         .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
         .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
         .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
         .chip-btn.active.steam { background: var(--chip-steam); color: white; }
         .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
-        .chip-btn.active.nintendo { background: var(--chip-nintendo); color: white; }
         .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
 
-        /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
         .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
         .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
@@ -136,14 +123,14 @@
         <section id="accueil" class="page active">
             <span class="date">Lundi 5 Janvier 2026</span><h1>Accueil</h1>
             <div class="bento-grid">
-                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val">848h</div></div>
-                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);">437h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🕰️</span><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">18h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏪</span><span class="bento-label">Hier</span><div class="bento-val">2h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏰</span><span class="bento-label">Aujourd'hui</span><div class="bento-val" style="color:var(--accent-blue);">4h</div></div>
+                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji" style="font-size:20px;margin-bottom:8px;">🖥️</span><span class="bento-label">Steam</span><div class="bento-val">742h</div></div>
+                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji" style="font-size:20px;margin-bottom:8px;">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);">2485h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji" style="font-size:20px;margin-bottom:8px;">🕰️</span><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">24h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji" style="font-size:20px;margin-bottom:8px;">⏪</span><span class="bento-label">Hier</span><div class="bento-val">3h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji" style="font-size:20px;margin-bottom:8px;">⏰</span><span class="bento-label">Aujourd'hui</span><div class="bento-val" style="color:var(--accent-blue);">5h</div></div>
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
-            <h2>Les 5 derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
+            <h2>Derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
             <button class="cta-full" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
             <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
         </section>
@@ -152,7 +139,7 @@
             <h1>Collection</h1>
             <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher un jeu..."></div>
             <div class="filter-row">
-                <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button><button class="chip-btn nintendo" id="chip-nintendo" onclick="togglePlatform('nintendo')">Nintendo</button></div>
+                <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button></div>
                 <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="launch">Derniers lancements</option><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
             </div>
             <div id="collection-list" class="game-list"></div>
@@ -166,15 +153,15 @@
                 <div class="week-chart" id="rollingChart"></div>
             </div>
             <h2>Santé de la Collection</h2>
-            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">24.8%</div><div class="health-bar-full"><div style="width:25%; background:var(--accent-pink); height:100%;"></div><div style="width:15%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (42)</span><span>EN COURS (28)</span></div></div>
+            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">28.4%</div><div class="health-bar-full"><div style="width:28%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (48)</span><span>EN COURS (32)</span></div></div>
             <h2>L'ADN du Joueur</h2>
-            <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">68% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
+            <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">72% de tes succès débloqués entre 23h et 03h. Ton record d'heures est le Samedi soir.</p></div>
             <h2>Répartition Écosystème</h2>
-            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:10px; height:100px; margin:10px 0;"><div style="flex:1; background:var(--chip-steam); height:65%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">65%</div><div style="flex:1; background:var(--chip-ps5); height:30%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">30%</div><div style="flex:1; background:var(--chip-nintendo); height:5%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">5%</div></div><div style="display:flex; justify-content:space-between; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PS5</span><span>SWITCH</span></div></div>
+            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:10px; height:100px; margin:10px 0;"><div style="flex:1; background:var(--chip-steam); height:25%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">25%</div><div style="flex:1; background:var(--chip-ps5); height:75%; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800;">75%</div></div><div style="display:flex; justify-content:space-between; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
             <h2>Record de Fidélité</h2>
-            <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('CrossCode')">
-                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
-                <div><span class="bento-label">Jeu le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">CrossCode</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Lancé chaque semaine depuis 2 ans</div></div>
+            <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Red Dead Redemption 2')">
+                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
+                <div><span class="bento-label">Le plus constant</span><div style="font-size:16px; font-weight:800; margin-top:4px;">Red Dead Redemption 2</div><div style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Lancé chaque semaine depuis sa sortie</div></div>
             </div>
         </section>
     </main>
@@ -187,39 +174,43 @@
 
     <script>
         const gamesData = [
-            { name: "CrossCode", sH: 45, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736082000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 12, desc: "Un action-RPG rétro au gameplay nerveux inspiré des classiques du genre." },
-            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée d'Arthur Morgan dans l'Amérique sauvage en déclin." },
-            { name: "ELDEN RING", sH: 132.6, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735982000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Le chef-d'œuvre de FromSoftware en monde ouvert." },
-            { name: "Grand Theft Auto V", sH: 0, pH: 342, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg", last: 1700000000, color: "#25d366", dev: "Rockstar Games", rel: 2013, comp: 100, desc: "Los Santos. Trois criminels. Une épopée culte." },
-            { name: "Hades II", sH: 65, pH: 0, nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/library_600x900.jpg", last: 1735950000, color: "#00ffcc", dev: "Supergiant Games", rel: 2024, comp: 50, desc: "Affrontez le Titan du Temps dans ce rogue-like mythologique." }
+            { name: "CrossCode", sH: 45, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736082000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 12, desc: "Action-RPG rétro." },
+            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée d'Arthur Morgan." },
+            { name: "ELDEN RING", sH: 132.6, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735982000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Le chef-d'œuvre de FromSoftware." },
+            { name: "Grand Theft Auto V", sH: 0, pH: 342, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/library_600x900.jpg", last: 1700000000, color: "#25d366", dev: "Rockstar Games", rel: 2013, comp: 100, desc: "Los Santos." },
+            { name: "MGS V: The Phantom Pain", sH: 0, pH: 121, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1735000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Infiltration ultime." },
+            { name: "The Division", sH: 0, pH: 112, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/365590/library_600x900.jpg", last: 1734000000, color: "#ff8c00", dev: "Massive Entertainment", rel: 2016, comp: 100, desc: "New York dévasté." },
+            { name: "DSX", sH: 84.8, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1812620/library_600x900.jpg", last: 1735990000, color: "#ffffff", dev: "Steam", rel: 2024, comp: 50, desc: "Steam Controller Experience." },
+            { name: "Hades II", sH: 65, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/library_600x900.jpg", last: 1735950000, color: "#00ffcc", dev: "Supergiant Games", rel: 2024, comp: 50, desc: "Rogue-like mythologique." },
+            { name: "Lords of the Fallen", sH: 9.2, pH: 91, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1735800000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Action RPG Souls-like." }
         ];
-        for(let i=6; i<=30; i++) { gamesData.push({ name: "Game " + i, sH: Math.floor(Math.random()*15), pH: Math.floor(Math.random()*15), nH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1720000000 - (i*100000), color: "#8E8E93", dev: "Studio " + i, rel: 2020 + (i%5), comp: Math.floor(Math.random()*100), desc: "Description du jeu " + i }); }
+        for(let i=10; i<=30; i++) { gamesData.push({ name: "Game " + i, sH: Math.floor(Math.random()*15), pH: Math.floor(Math.random()*15), img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1720000000 - (i*100000), color: "#8E8E93", dev: "Dev " + i, rel: 2020, comp: 40, desc: "Placeholder" }); }
 
         let activePlatform = null;
 
         function createGameRow(game, showPlatform = null) {
-            const total = (showPlatform === 'steam') ? game.sH : (showPlatform === 'ps5') ? game.pH : (showPlatform === 'nintendo') ? game.nH : (game.sH + game.pH + game.nH);
-            const ranked = [...gamesData].sort((a,b) => (b.sH+b.pH+b.nH) - (a.sH+a.pH+a.nH));
+            const total = (showPlatform === 'steam') ? game.sH : (showPlatform === 'ps5') ? game.pH : (game.sH + game.pH);
+            const ranked = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH));
             const rank = ranked.findIndex(rg => rg.name === game.name) + 1;
             const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
-            let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '') + (game.nH > 0 ? `<span class="chip tag-nintendo">NINTENDO</span>` : '');
+            let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
             return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
         }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
-            const rank = [...gamesData].sort((a,b) => (b.sH+b.pH+b.nH) - (a.sH+a.pH+a.nH)).findIndex(x => x.name === name) + 1;
+            const rank = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH)).findIndex(x => x.name === name) + 1;
             document.getElementById('sh-img').src = g.img;
             document.getElementById('sh-title').innerText = g.name;
-            document.getElementById('sh-hours').innerText = (g.sH+g.pH+g.nH).toFixed(0)+"h";
+            document.getElementById('sh-hours').innerText = (g.sH+g.pH).toFixed(0)+"h";
             document.getElementById('sh-rank').innerText = "#"+rank;
-            document.getElementById('sh-dev').innerText = g.dev || "Studio";
-            document.getElementById('sh-rel').innerText = g.rel || "----";
-            document.getElementById('sh-desc').innerText = g.desc || "Description non disponible.";
-            document.getElementById('sh-comp-text').innerText = (g.comp||0)+"%";
-            document.getElementById('sh-comp-fill').style.width = (g.comp||0)+"%";
+            document.getElementById('sh-dev').innerText = g.dev;
+            document.getElementById('sh-rel').innerText = g.rel;
+            document.getElementById('sh-desc').innerText = g.desc;
+            document.getElementById('sh-comp-text').innerText = g.comp+"%";
+            document.getElementById('sh-comp-fill').style.width = g.comp+"%";
             document.getElementById('sh-halo').style.setProperty('--sheet-color', g.color);
-            document.getElementById('sh-chips').innerHTML = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'')+(g.nH>0?'<span class="chip tag-nintendo">NINTENDO</span>':'');
+            document.getElementById('sh-chips').innerHTML = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
             document.getElementById('sheet-overlay').style.display='block';
             setTimeout(()=>{document.getElementById('sheet-overlay').style.opacity='1'; document.getElementById('game-sheet').style.transform='translateY(0)';},10);
         }
@@ -231,23 +222,23 @@
         function updateCollectionUI() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortSelect').value;
-            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (activePlatform==='steam'?g.sH>0:activePlatform==='ps5'?g.pH>0:g.nH>0) : true));
-            filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH+b.nH)-(a.sH+a.pH+a.nH))));
+            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform.charAt(0).toLowerCase()+'H']>0) : true));
+            filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH)-(a.sH+a.pH))));
             document.getElementById('collection-list').innerHTML = filtered.map(g => createGameRow(g, activePlatform)).join('');
         }
 
         function renderFocusCard(id, g, label) {
-            const dateStr = new Date(g.last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-            const tags = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'')+(g.nH>0?'<span class="chip tag-nintendo">NINTENDO</span>':'');
-            document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${g.color}"></div><div class="focus-poster"><img src="${g.img}"></div><div class="focus-info"><span class="focus-label">${label}: ${dateStr}</span><div class="focus-title">${g.name}</div><div style="margin-bottom:8px;">${tags}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${(g.sH+g.pH+g.nH).toFixed(0)}H</div></div></div>`;
+            const tags = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
+            document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${g.color}"></div><div class="focus-poster"><img src="${g.img}"></div><div class="focus-info"><span class="focus-label">${label}: ${new Date(g.last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</span><div class="focus-title">${g.name}</div><div style="margin-bottom:8px;">${tags}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${(g.sH+g.pH).toFixed(0)}H</div></div></div>`;
         }
 
         function renderRollingChart() {
             const container = document.getElementById('rollingChart');
             let html = '', total = 0;
             const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+            const mockHours = [1.4, 2.5, 5.6, 2.8, 4.2, 5.6, 2.8]; // Données contrastées
             for(let i=0; i<7; i++) {
-                const val = parseFloat((Math.random()*5.8).toFixed(1)); total += val;
+                const val = mockHours[i]; total += val;
                 html += `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${(val/6)*100}%"></div><span class="bar-label">${labels[i]}</span></div>`;
             }
             container.innerHTML = html; document.getElementById('rollingTotal').innerText = `TOTAL : ${total.toFixed(1)}H`;
