@@ -59,7 +59,7 @@
         .row-poster { width: 80px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
         .row-poster img { width: 100%; height: 100%; object-fit: cover; }
         .row-info { flex-grow: 1; padding: 0 18px; overflow: hidden; }
-        .row-title { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
+        .row-title { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; letter-spacing: -0.5px; }
         .chip { font-size: 8px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: #FFF; margin-right: 6px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
@@ -70,10 +70,10 @@
         /* --- APERÇU SPECIFIC --- */
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
-        .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 110px; padding: 20px 0 10px; margin-top: 10px; }
-        .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; gap: 6px; }
+        .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding: 10px 0; margin-top: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; height: 100%; justify-content: flex-end; }
         .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
-        .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.9; min-height: 8px; transition: height 0.6s cubic-bezier(0.3, 0, 0.2, 1); }
+        .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.9; min-height: 4px; transition: height 0.6s ease; }
         .bar.weekend { background: var(--accent-pink); }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
@@ -87,6 +87,15 @@
         .sh-grid-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
         .sh-meta-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
 
+        /* --- COLLECTION TOOLS --- */
+        .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
+        .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
+        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
+        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
+        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
+        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
+
         /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
         .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
@@ -94,6 +103,7 @@
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
         .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
         .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
+        .cta-full { width: 100%; padding: 20px; background: var(--accent-pink); border: none; border-radius: 24px; color: white; font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -130,7 +140,7 @@
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
             <h2>Les 5 derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
-            <button class="cta-full" onclick="switchPage('collection')" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">VOIR MA COLLECTION</button>
+            <button class="cta-full" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
             <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
         </section>
 
@@ -148,19 +158,15 @@
             <h1>Aperçu</h1>
             <h2>Activité des 7 derniers jours</h2>
             <div class="insight-card">
-                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">6h = 100% hauteur</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">Echelle : 6h = 100%</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
                 <div class="week-chart" id="rollingChart"></div>
             </div>
-            
             <h2>Santé de la Collection</h2>
             <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">34.2%</div><div class="health-bar-full"><div style="width:34%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (58)</span><span>EN COURS (22)</span></div></div>
-            
             <h2>L'ADN du Joueur</h2>
             <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">68% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
-            
             <h2>Répartition Écosystème</h2>
             <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
-
             <h2>Record de Fidélité</h2>
             <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Red Dead Redemption 2')">
                 <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
@@ -177,7 +183,7 @@
 
     <script>
         const gamesData = [
-            { name: "CrossCode", sH: 45.0, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736100000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 15, desc: "Action-RPG rétro néo-futuriste." },
+            { name: "CrossCode", sH: 45, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736100000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 15, desc: "Action-RPG rétro néo-futuriste." },
             { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1735900000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "Épopée sauvage en Amérique." },
             { name: "ELDEN RING", sH: 132.6, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1735982000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 88, desc: "Devenez le Seigneur d'Elden." },
             { name: "Lords of the Fallen", sH: 9.2, pH: 91, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1735985000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Action RPG sombre." },
@@ -189,15 +195,6 @@
         for(let i=9; i<=30; i++) { gamesData.push({ name: "Jeu " + i, sH: Math.floor(Math.random()*15), pH: Math.floor(Math.random()*10), img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1720000000 - (i*100000), color: "#8E8E93", dev: "Studio", rel: 2021, comp: 10, desc: "---" }); }
 
         let activePlatform = null;
-
-        function createGameRow(game, showPlatform = null) {
-            const total = (showPlatform === 'steam') ? game.sH : (showPlatform === 'ps5') ? game.pH : (game.sH + game.pH);
-            const ranked = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH));
-            const rank = ranked.findIndex(rg => rg.name === game.name) + 1;
-            const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
-            let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
-            return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
-        }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
@@ -224,9 +221,17 @@
         function updateCollectionUI() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortSelect').value;
-            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform.charAt(0).toLowerCase()==='s'?'sH':'pH']>0) : true));
+            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform === 'steam' ? 'sH' : 'pH'] > 0) : true));
             filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH)-(a.sH+a.pH))));
-            document.getElementById('collection-list').innerHTML = filtered.map(g => createGameRow(g, activePlatform)).join('');
+            const listHtml = filtered.map(game => {
+                const total = (activePlatform === 'steam') ? game.sH : (activePlatform === 'ps5') ? game.pH : (game.sH + game.pH);
+                const ranked = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH));
+                const rank = ranked.findIndex(rg => rg.name === game.name) + 1;
+                const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
+                let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
+                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
+            }).join('');
+            document.getElementById('collection-list').innerHTML = listHtml;
         }
 
         function renderFocusCard(id, g, label) {
@@ -239,14 +244,14 @@
             const container = document.getElementById('rollingChart');
             let html = '', total = 0;
             const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+            // Génération de barres avec relief marqué (de 0.5h à 5.8h)
+            const testValues = [1.2, 4.5, 2.1, 5.8, 0.8, 3.2, 2.4];
             for(let i=0; i<7; i++) {
-                // Valeurs random plus hautes pour assurer le relief (entre 1h et 5.9h)
-                const val = parseFloat((Math.random()*4.9 + 1.0).toFixed(1)); 
-                total += val;
-                const hPerc = (val / 6) * 100;
-                html += `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${hPerc}%"></div><span class="bar-label">${labels[i]}</span></div>`;
+                const val = testValues[i]; total += val;
+                const hPerc = (val / 6) * 100; // Echelle 6h = 100%
+                html += `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${hPerc}%"></div><span class="bar-label" style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
             }
-            container.innerHTML = html; 
+            container.innerHTML = html;
             document.getElementById('rollingTotal').innerText = `TOTAL : ${total.toFixed(1)}H`;
         }
 
@@ -262,12 +267,25 @@
             document.getElementById('percPS').style.height = (pTotal/total)*100 + "%";
         }
 
-        function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); document.getElementById('nav-'+id).classList.add('active'); window.scrollTo(0,0); }
+        function switchPage(id) { 
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+            document.getElementById(id).classList.add('active'); 
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); 
+            document.getElementById('nav-'+id).classList.add('active'); 
+            window.scrollTo(0,0);
+            if(id === 'apercu') setTimeout(renderRollingChart, 50); // Redessine pour être sûr
+        }
 
         function initUI() {
             const chrono = [...gamesData].sort((a,b) => b.last - a.last);
             renderFocusCard('current-focus', chrono[0], "DERNIÈRE SESSION");
-            document.getElementById('discover-list').innerHTML = chrono.slice(0, 5).map(g => createGameRow(g)).join('');
+            document.getElementById('discover-list').innerHTML = chrono.slice(0, 5).map(game => {
+                const total = (game.sH + game.pH);
+                const rank = chrono.findIndex(rg => rg.name === game.name) + 1;
+                const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
+                let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
+                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
+            }).join('');
             renderFocusCard('return-focus', gamesData[2], "PAS RELANCÉ DEPUIS");
             updateCollectionUI(); renderRollingChart(); updateAnalytics();
         }
