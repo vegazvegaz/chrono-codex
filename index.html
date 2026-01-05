@@ -68,6 +68,7 @@
 
         /* --- APERÇU SPECIFIC --- */
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
         .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding: 10px 0; margin-top: 10px; }
         .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; height: 100%; justify-content: flex-end; }
         .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
@@ -155,15 +156,19 @@
             <h1>Aperçu</h1>
             <h2>Activité des 7 derniers jours</h2>
             <div class="insight-card">
-                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">6h = 100% hauteur</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">Echelle : 6h = 100%</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
                 <div class="week-chart" id="rollingChart"></div>
             </div>
+            
             <h2>Santé de la Collection</h2>
             <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val" id="globalCompVal">--%</div><div class="health-bar-full"><div id="compTerm" style="background:var(--accent-pink); height:100%;"></div><div id="compCours" style="background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span id="txtTerm">TERMINÉS</span><span id="txtCours">EN COURS</span></div></div>
+            
             <h2>L'ADN du Joueur</h2>
             <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">68% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
+            
             <h2>Répartition Écosystème</h2>
             <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
+
             <h2>Record de Fidélité</h2>
             <div class="insight-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;" onclick="openSheet('Red Dead Redemption 2')">
                 <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
@@ -220,12 +225,14 @@
             const sort = document.getElementById('sortSelect').value;
             let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform === 'steam' ? 'sH' : 'pH'] > 0) : true));
             filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH)-(a.sH+a.pH))));
-            document.getElementById('collection-list').innerHTML = filtered.map(game => {
+            
+            const listHtml = filtered.map(game => {
                 const total = (activePlatform === 'steam') ? game.sH : (activePlatform === 'ps5') ? game.pH : (game.sH + game.pH);
                 const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(rg => rg.name === game.name) + 1;
                 const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
                 return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${(game.sH > 0 ? '<span class="chip tag-steam">STEAM</span>' : '') + (game.pH > 0 ? '<span class="chip tag-ps5">PS5</span>' : '')}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
             }).join('');
+            document.getElementById('collection-list').innerHTML = listHtml;
         }
 
         function renderFocusCard(id, g, label) {
@@ -259,6 +266,7 @@
             document.getElementById('percPS').innerText = Math.round((pTotal/total)*100) + "%";
             document.getElementById('percSteam').style.height = (sTotal/total)*100 + "%";
             document.getElementById('percPS').style.height = (pTotal/total)*100 + "%";
+            
             document.getElementById('globalCompVal').innerText = Math.round((term/(term+cours))*100) + "%";
             document.getElementById('compTerm').style.width = (term/(term+cours))*100 + "%";
             document.getElementById('compCours').style.width = (cours/(term+cours))*100 + "%";
@@ -272,20 +280,19 @@
             document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); 
             document.getElementById('nav-'+id).classList.add('active'); 
             window.scrollTo(0,0);
-            if(id === 'apercu') setTimeout(renderRollingChart, 50);
+            if(id === 'apercu') setTimeout(renderRollingChart, 100);
         }
 
         function initUI() {
             const chrono = [...gamesData].sort((a,b) => b.last - a.last);
             renderFocusCard('current-focus', chrono[0], "DERNIÈRE SESSION");
-            const top5 = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).slice(0, 5);
             document.getElementById('discover-list').innerHTML = chrono.slice(1, 6).map(game => {
                 const total = (game.sH + game.pH);
                 const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(rg => rg.name === game.name) + 1;
                 const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
                 return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${(game.sH > 0 ? '<span class="chip tag-steam">STEAM</span>' : '') + (game.pH > 0 ? '<span class="chip tag-ps5">PS5</span>' : '')}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
             }).join('');
-            renderFocusCard('return-focus', gamesData[1], "PAS RELANCÉ DEPUIS");
+            renderFocusCard('return-focus', gamesData[2], "PAS RELANCÉ DEPUIS");
             updateCollectionUI(); renderRollingChart(); updateAnalytics();
         }
         initUI();
