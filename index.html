@@ -59,7 +59,7 @@
         .row-poster { width: 80px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
         .row-poster img { width: 100%; height: 100%; object-fit: cover; }
         .row-info { flex-grow: 1; padding: 0 18px; overflow: hidden; }
-        .row-title { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .row-title { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
         .chip { font-size: 8px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: #FFF; margin-right: 6px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
@@ -73,7 +73,7 @@
         .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 110px; padding: 20px 0 10px; margin-top: 10px; }
         .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; gap: 6px; }
         .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
-        .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.8; transition: height 0.4s ease; }
+        .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.9; min-height: 8px; transition: height 0.6s cubic-bezier(0.3, 0, 0.2, 1); }
         .bar.weekend { background: var(--accent-pink); }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
@@ -130,7 +130,7 @@
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
             <h2>Les 5 derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
-            <button class="cta-full" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
+            <button class="cta-full" onclick="switchPage('collection')" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">VOIR MA COLLECTION</button>
             <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
         </section>
 
@@ -186,7 +186,7 @@
             { name: "MGS V: The Phantom Pain", sH: 0, pH: 121, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1735000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Infiltration tactique ultime." },
             { name: "The Division", sH: 0, pH: 112, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/365590/library_600x900.jpg", last: 1730000000, color: "#ff8c00", dev: "Massive Entertainment", rel: 2016, comp: 100, desc: "New York post-pandémie." }
         ];
-        for(let i=9; i<=30; i++) { gamesData.push({ name: "Jeu " + i, sH: Math.floor(Math.random()*15), pH: Math.floor(Math.random()*10), img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1720000000 - (i*100000), color: "#8E8E93", dev: "Studio", rel: 2021, comp: 10, desc: "..." }); }
+        for(let i=9; i<=30; i++) { gamesData.push({ name: "Jeu " + i, sH: Math.floor(Math.random()*15), pH: Math.floor(Math.random()*10), img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/library_600x900.jpg", last: 1720000000 - (i*100000), color: "#8E8E93", dev: "Studio", rel: 2021, comp: 10, desc: "---" }); }
 
         let activePlatform = null;
 
@@ -240,11 +240,14 @@
             let html = '', total = 0;
             const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
             for(let i=0; i<7; i++) {
-                const val = parseFloat((Math.random()*5.5 + 0.5).toFixed(1)); total += val;
+                // Valeurs random plus hautes pour assurer le relief (entre 1h et 5.9h)
+                const val = parseFloat((Math.random()*4.9 + 1.0).toFixed(1)); 
+                total += val;
                 const hPerc = (val / 6) * 100;
                 html += `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${hPerc}%"></div><span class="bar-label">${labels[i]}</span></div>`;
             }
-            container.innerHTML = html; document.getElementById('rollingTotal').innerText = `TOTAL : ${total.toFixed(1)}H`;
+            container.innerHTML = html; 
+            document.getElementById('rollingTotal').innerText = `TOTAL : ${total.toFixed(1)}H`;
         }
 
         function updateAnalytics() {
