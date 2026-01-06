@@ -1,8 +1,8 @@
 name: Sync Exophase Data
 on:
   schedule:
-    - cron: '0 */6 * * *' # S'exécute toutes les 6 heures
-  workflow_dispatch: # Permet de le lancer manuellement
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -10,22 +10,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-          
       - name: Install dependencies
         run: pip install requests beautifulsoup4
-        
       - name: Run sync script
         run: python sync_stats.py
-        
-      - name: Commit data.json
+      - name: Commit index.html
         run: |
           git config --global user.name 'ChronoBot'
           git config --global user.email 'bot@chronocodex.com'
-          git add data.json
-          git commit -m "Update stats data" || exit 0
+          git add index.html
+          git commit -m "Update stats data in index.html" || exit 0
           git push
