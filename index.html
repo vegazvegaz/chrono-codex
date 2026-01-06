@@ -47,46 +47,38 @@
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
         .focus-info { flex-grow: 1; z-index: 2; }
-        .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
+        .focus-title { font-size: 20px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
         .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
-        .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
 
         .game-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .game-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-        .row-poster { width: 80px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+        .row-poster { width: 70px; aspect-ratio: 2/3; border-radius: 10px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
         .row-poster img { width: 100%; height: 100%; object-fit: cover; }
-        .row-info { flex-grow: 1; padding: 0 18px; min-width: 0; }
-        .row-title { font-size: 19px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; letter-spacing: -0.5px; }
-        .chip-container { display: flex; gap: 6px; flex-wrap: wrap; }
-        .chip { font-size: 8px; font-weight: 900; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; color: #FFF; display: inline-block; white-space: nowrap; }
+        .row-info { flex-grow: 1; padding: 0 15px; min-width: 0; }
+        .row-title { font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
+        .chip-container { display: flex; gap: 4px; }
+        .chip { font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; color: #FFF; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
         .row-stats { flex-shrink: 0; text-align: right; }
-        .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
-        .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
+        .row-playtime { font-size: 20px; font-weight: 800; color: #FFF; }
+        .row-rank { font-size: 10px; font-weight: 800; color: var(--text-dim); margin-top: 4px; }
 
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
-        #game-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 88vh; background: #080808; border-radius: 32px 32px 0 0; z-index: 9001; transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.3, 0, 0.2, 1); overflow-y: auto; padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
-        
+        #game-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 85vh; background: #080808; border-radius: 32px 32px 0 0; z-index: 9001; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.3, 0, 0.2, 1); overflow-y: auto; padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
+
         .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
         .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
-        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
-        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
-        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
-        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
-
+        
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
-        .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
-        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
-        .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
-        .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
-        .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
-        .cta-full { width: 100%; padding: 20px; background: var(--accent-pink); border: none; border-radius: 24px; color: white; font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+        .nav { pointer-events: auto; display: flex; gap: 8px; padding: 6px; background: var(--glass-bg); backdrop-filter: blur(30px); border-radius: 40px; border: 1px solid var(--glass-border); }
+        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 55px; border-radius: 30px; }
+        .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.1); }
+        .nav-label { font-size: 8px; font-weight: 800; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -94,206 +86,174 @@
     <div id="sheet-overlay" onclick="closeSheet()"></div>
     <div id="game-sheet">
         <div style="width:40px;height:5px;background:rgba(255,255,255,0.2);border-radius:10px;margin:-5px auto 25px;"></div>
-        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center; margin-bottom:10px;">Game</div>
-        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;"></div>
-        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:25px; border:1px solid rgba(255,255,255,0.05);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:9px; font-weight:900; color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
-            <div class="sh-comp-bar" style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:10px; margin:10px 0; overflow:hidden;"><div id="sh-comp-fill" style="height:100%; background:var(--accent-pink); width:0%"></div></div>
+        <div id="sh-title" style="font-size:28px; font-weight:800; text-align:center; margin-bottom:15px;">Game</div>
+        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin-bottom:25px;"></div>
+        <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; margin-bottom:25px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:9px; font-weight:900; color:var(--accent-pink);">PROGRESSION</span><b id="sh-comp-text">0%</b></div>
+            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:10px; margin-top:10px; overflow:hidden;"><div id="sh-comp-fill" style="height:100%; background:var(--accent-pink); width:0%"></div></div>
         </div>
-        <div id="sh-grid-meta" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:18px;"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Sortie</span><div id="sh-rel" style="font-weight:700;">--</div></div>
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:18px;"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Temps Total</span><div id="sh-hours" style="font-weight:700;">0h</div></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:15px;"><span style="font-size:8px; color:var(--text-dim);">SORTIE</span><div id="sh-rel" style="font-weight:700;">----</div></div>
+            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:15px;"><span style="font-size:8px; color:var(--text-dim);">TOTAL</span><div id="sh-hours" style="font-weight:700;">0h</div></div>
         </div>
     </div>
 
     <main>
         <section id="accueil" class="page active">
-            <span class="date">Mardi 6 Janvier 2026</span><h1>Accueil</h1>
+            <span class="date">Mise à jour en direct</span><h1>Codex</h1>
             <div class="bento-grid">
                 <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
                 <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);" id="totalPS">0h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🕰️</span><span class="bento-label">Temps Total</span><div class="bento-val" style="color:var(--accent-pink);" id="totalGlobal">0h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">📚</span><span class="bento-label">Titres</span><div class="bento-val" id="countGames">0</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🏆</span><span class="bento-label">Terminés</span><div class="bento-val" id="countFinished">0</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🕰️</span><span class="bento-label">Global</span><div class="bento-val" id="totalGlobal">0h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">📚</span><span class="bento-label">Jeux</span><div class="bento-val" id="countGames">0</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🏆</span><span class="bento-label">Fini</span><div class="bento-val" id="countFinished">0</div></div>
             </div>
-            <h2>Mon Top 1</h2><div id="current-focus" class="focus-card"></div>
-            <h2>Les plus joués</h2><div id="discover-list" class="game-list"></div>
-            <button class="cta-full" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
+            <h2>Mon Record d'Heures</h2><div id="current-focus" class="focus-card"></div>
+            <h2>Top Playtime</h2><div id="discover-list" class="game-list"></div>
         </section>
 
         <section id="collection" class="page">
             <h1>Collection</h1>
-            <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher un jeu..."></div>
-            <div class="filter-row">
-                <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button></div>
-                <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
-            </div>
+            <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateUI()" placeholder="Rechercher..."></div>
             <div id="collection-list" class="game-list"></div>
         </section>
 
         <section id="apercu" class="page">
             <h1>Aperçu</h1>
-            <h2>Complétion de la Collection</h2>
             <div class="insight-card">
+                <span class="bento-label">Complétion Globale</span>
                 <div class="insight-val" id="globalCompPerc">0%</div>
                 <div class="health-bar-full">
-                    <div id="compBarDone" style="width:0%; background:var(--accent-pink); height:100%;"></div>
-                    <div id="compBarActive" style="width:0%; background:var(--accent-blue); height:100%;"></div>
+                    <div id="barDone" style="width:0%; background:var(--accent-pink);"></div>
+                    <div id="barActive" style="width:0%; background:var(--accent-blue);"></div>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);">
                     <span id="labelDone">TERMINÉS (0)</span><span id="labelActive">EN COURS (0)</span>
                 </div>
             </div>
-            <h2>Répartition Plateforme</h2>
             <div class="insight-card">
-                <div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;">
-                    <div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">0%</div>
-                    <div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">0%</div>
+                <span class="bento-label">Répartition Plateforme</span>
+                <div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin-top:15px;">
+                    <div id="hSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">0%</div>
+                    <div id="hPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">0%</div>
                 </div>
             </div>
         </section>
     </main>
 
     <div class="nav-container"><nav class="nav">
-        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span class="nav-label">ACCUEIL</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg><span class="nav-label">COLLECTION</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="nav-label">APERÇU</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active"><span class="nav-label">ACCUEIL</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link"><span class="nav-label">LISTE</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link"><span class="nav-label">STATS</span></a>
     </nav></div>
 
     <script>
-        const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRv-3Kw8k5lcfpW-zDNPlYJEUA_xWTKQ7Lai5aNhlHpxXPCzVK7apkBWGToKsYWYoli-cmEiHWJnl17/pub?output=csv";
-        
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRv-3Kw8k5lcfpW-zDNPlYJEUA_xWTKQ7Lai5aNhlHpxXPCzVK7apkBWGToKsYWYoli-cmEiHWJnl17/pub?output=csv";
         let gamesData = [];
-        let activePlatform = null;
 
-        async function loadData() {
+        async function init() {
             try {
-                const response = await fetch(SHEET_CSV);
-                const data = await response.text();
-                parseCSV(data);
-            } catch (e) { console.error("Erreur de chargement", e); }
-        }
+                const response = await fetch(SHEET_URL);
+                const csv = await response.text();
+                const rows = csv.split('\n').slice(1);
+                const map = new Map();
 
-        function parseCSV(csv) {
-            const rows = csv.split('\n').slice(1);
-            const map = new Map();
+                rows.forEach(row => {
+                    const cols = row.split(',').map(c => c.trim().replace(/^"(.*)"$/, '$1'));
+                    if (cols.length < 3) return;
 
-            rows.forEach(row => {
-                const cols = row.split(',').map(c => c.trim().replace(/^"(.*)"$/, '$1'));
-                if (cols.length < 3) return;
+                    const name = cols[0];
+                    const key = name.toLowerCase().replace(/[™®]/g, '');
+                    const platform = cols[1];
+                    const hours = parseFloat(cols[2].replace('h', '').replace('m', '').trim()) || 0;
+                    const status = cols[4] || "";
+                    const appId = cols[5] || "";
 
-                const rawName = cols[0];
-                const key = rawName.toLowerCase();
-                const platform = cols[1];
-                const hours = parseFloat(cols[2].replace('h', '').replace('m', '')) || 0;
-                const year = cols[3] || "----";
-                const status = cols[4] || "";
-                const appId = cols[5] || ""; // Colonne 6 pour Steam ID
+                    if (!map.has(key)) {
+                        let img = "https://via.placeholder.com/600x900?text=" + encodeURIComponent(name);
+                        if(appId && !isNaN(appId) && appId.length > 3) {
+                            img = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/library_600x900.jpg`;
+                        }
 
-                if (!map.has(key)) {
-                    let img = "https://via.placeholder.com/600x900?text=" + encodeURIComponent(rawName);
-                    if(appId && appId.length > 3 && !isNaN(appId)) {
-                        img = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/library_600x900.jpg`;
+                        map.set(key, {
+                            name: name,
+                            sH: platform.includes("Steam") ? hours : 0,
+                            pH: (platform.includes("PS") || platform.includes("PlayStation")) ? hours : 0,
+                            img: img,
+                            year: cols[3] || "----",
+                            status: status,
+                            comp: status.includes("🟢") || status.includes("🏆") ? 100 : (status.includes("🟡") ? 45 : 0)
+                        });
+                    } else {
+                        const existing = map.get(key);
+                        if (platform.includes("Steam")) existing.sH += hours;
+                        if (platform.includes("PS") || platform.includes("PlayStation")) existing.pH += hours;
+                        if (existing.status === "" && status !== "") existing.status = status;
                     }
+                });
 
-                    map.set(key, {
-                        name: rawName,
-                        sH: platform.includes("Steam") ? hours : 0,
-                        pH: platform.includes("PS") ? hours : 0,
-                        img: img,
-                        year: year,
-                        status: status,
-                        comp: status.includes("🟢") ? 100 : (status.includes("🟡") ? 45 : 0)
-                    });
-                } else {
-                    const entry = map.get(key);
-                    if (platform.includes("Steam")) entry.sH += hours;
-                    if (platform.includes("PS")) entry.pH += hours;
-                    if (entry.status === "" && status !== "") entry.status = status;
-                }
-            });
-
-            gamesData = Array.from(map.values());
-            initUI();
+                gamesData = Array.from(map.values()).sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH));
+                updateUI();
+            } catch (e) { console.error(e); }
         }
 
-        function initUI() {
-            const sorted = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH));
-            
-            // Focus Top 1
-            const top = sorted[0];
+        function updateUI() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = gamesData.filter(g => g.name.toLowerCase().includes(search));
+
+            // Accueil - Top 1
+            const top = gamesData[0];
             const tags = (top.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(top.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
-            document.getElementById('current-focus').innerHTML = `
-                <div class="focus-poster"><img src="${top.img}"></div>
-                <div class="focus-info">
-                    <span class="focus-label">Record d'heures</span>
-                    <div class="focus-title">${top.name}</div>
-                    <div class="chip-container" style="margin-bottom:8px;">${tags}</div>
-                    <div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${(top.sH+top.pH).toFixed(0)}H</div>
-                </div>`;
+            document.getElementById('current-focus').innerHTML = `<div onclick="openSheet('${top.name.replace(/'/g, "\\'")}')" style="display:flex; width:100%; align-items:center; gap:20px;"><div class="focus-poster"><img src="${top.img}"></div><div class="focus-info"><span class="focus-label">NUMÉRO 1</span><div class="focus-title">${top.name}</div><div class="chip-container">${tags}</div><div style="font-size:10px; font-weight:700; color:var(--text-dim); margin-top:8px;">TOTAL : ${(top.sH+top.pH).toFixed(0)}H</div></div></div>`;
 
-            // Top List (suivant)
-            document.getElementById('discover-list').innerHTML = sorted.slice(1, 6).map(g => {
-                let tags = (g.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (g.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
-                return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')">
-                    <div class="row-poster"><img src="${g.img}"></div>
-                    <div class="row-info"><div class="row-title">${g.name}</div><div class="chip-container">${tags}</div></div>
-                    <div class="row-stats"><div class="row-playtime">${(g.sH+g.pH).toFixed(0)}h</div></div>
-                </div>`;
-            }).join('');
+            // Accueil - Liste
+            document.getElementById('discover-list').innerHTML = gamesData.slice(1, 6).map(g => renderRow(g)).join('');
 
-            updateAnalytics();
-            updateCollectionUI();
+            // Collection
+            document.getElementById('collection-list').innerHTML = filtered.map(g => renderRow(g)).join('');
+
+            // Stats
+            updateStats();
         }
 
-        function updateAnalytics() {
-            let sTotal = 0, pTotal = 0, finished = 0, active = 0;
+        function renderRow(g) {
+            const total = (g.sH + g.pH);
+            const rank = gamesData.findIndex(x => x.name === g.name) + 1;
+            let tags = (g.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (g.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
+            return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${g.img}"></div><div class="row-info"><div class="row-title">${g.name}</div><div class="chip-container">${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">#${rank}</div></div></div>`;
+        }
+
+        function updateStats() {
+            let sH = 0, pH = 0, fini = 0, enCours = 0;
             gamesData.forEach(g => {
-                sTotal += g.sH; pTotal += g.pH;
-                if(g.status.includes("🟢") || g.status.includes("🏆")) finished++;
-                else if(g.status.includes("🟡")) active++;
+                sH += g.sH; pH += g.pH;
+                if(g.comp === 100) fini++; else if(g.comp > 0) enCours++;
             });
-            const total = sTotal + pTotal;
-            document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
-            document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
+            const total = sH + pH;
+            document.getElementById('totalSteam').innerText = Math.round(sH) + "h";
+            document.getElementById('totalPS').innerText = Math.round(pH) + "h";
             document.getElementById('totalGlobal').innerText = Math.round(total) + "h";
             document.getElementById('countGames').innerText = gamesData.length;
-            document.getElementById('countFinished').innerText = finished;
+            document.getElementById('countFinished').innerText = fini;
 
-            // Aperçu
-            const compPerc = Math.round((finished / gamesData.length) * 100);
-            document.getElementById('globalCompPerc').innerText = compPerc + "%";
-            document.getElementById('compBarDone').style.width = compPerc + "%";
-            document.getElementById('compBarActive').style.width = Math.round((active / gamesData.length) * 100) + "%";
-            document.getElementById('labelDone').innerText = `TERMINÉS (${finished})`;
-            document.getElementById('labelActive').innerText = `EN COURS (${active})`;
+            const finiPerc = Math.round((fini / gamesData.length) * 100);
+            document.getElementById('globalCompPerc').innerText = finiPerc + "%";
+            document.getElementById('barDone').style.width = finiPerc + "%";
+            document.getElementById('barActive').style.width = Math.round((enCours / gamesData.length) * 100) + "%";
+            document.getElementById('labelDone').innerText = `FINI (${fini})`;
+            document.getElementById('labelActive').innerText = `EN COURS (${enCours})`;
 
-            document.getElementById('percSteam').innerText = Math.round((sTotal/total)*100) + "%";
-            document.getElementById('percPS').innerText = Math.round((pTotal/total)*100) + "%";
-        }
-
-        function updateCollectionUI() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const sort = document.getElementById('sortSelect').value;
-            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (activePlatform === 'steam' ? g.sH > 0 : g.pH > 0) : true));
-            
-            filtered.sort((a,b) => (sort==='alpha' ? a.name.localeCompare(b.name) : (b.sH+b.pH)-(a.sH+a.pH)));
-            
-            document.getElementById('collection-list').innerHTML = filtered.map(g => {
-                let tags = (g.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (g.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
-                return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')">
-                    <div class="row-poster"><img src="${g.img}"></div>
-                    <div class="row-info"><div class="row-title">${g.name}</div><div class="chip-container">${tags}</div></div>
-                    <div class="row-stats"><div class="row-playtime">${(g.sH+g.pH).toFixed(0)}h</div></div>
-                </div>`;
-            }).join('');
+            document.getElementById('hSteam').innerText = Math.round((sH/total)*100) + "%";
+            document.getElementById('hPS').innerText = Math.round((pH/total)*100) + "%";
+            document.getElementById('hSteam').style.height = (sH/total)*100 + "%";
+            document.getElementById('hPS').style.height = (pH/total)*100 + "%";
         }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
             document.getElementById('sh-title').innerText = g.name;
-            document.getElementById('sh-hours').innerText = (g.sH+g.pH).toFixed(0) + "h";
             document.getElementById('sh-rel').innerText = g.year;
+            document.getElementById('sh-hours').innerText = (g.sH+g.pH).toFixed(0) + "h";
             document.getElementById('sh-comp-text').innerText = g.comp + "%";
             document.getElementById('sh-comp-fill').style.width = g.comp + "%";
             document.getElementById('sh-chips').innerHTML = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
@@ -302,10 +262,9 @@
         }
 
         function closeSheet() { document.getElementById('sheet-overlay').style.opacity = '0'; document.getElementById('game-sheet').style.transform = 'translateY(100%)'; setTimeout(() => document.getElementById('sheet-overlay').style.display = 'none', 300); }
-        function togglePlatform(p) { activePlatform = (activePlatform === p) ? null : p; document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active')); if(activePlatform) document.getElementById('chip-'+p).classList.add('active'); updateCollectionUI(); }
         function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); document.getElementById('nav-'+id).classList.add('active'); window.scrollTo(0,0); }
-
-        window.onload = loadData;
+        
+        window.onload = init;
     </script>
 </body>
 </html>
