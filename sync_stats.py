@@ -33,23 +33,21 @@ def get_stats():
                     "dev": "Sync", "rel": 2025, "comp": comp, "desc": "Stats réelles Exophase."
                 })
             except: continue
-        
-        # Tri et retour
         if games:
             games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
             return games
     except Exception as e:
-        print(f"Erreur : {e}")
+        print(f"Erreur Sync : {e}")
     return None
 
 def update_html(games):
     with open('index.html', 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Injection stricte entre les marqueurs SyncStart et SyncEnd
+    # Remplacement ciblé entre les marqueurs SYNC_ZONE
     json_data = json.dumps(games, ensure_ascii=False)
-    pattern = r"/\* SyncStart \*/.*?/\* SyncEnd \*/"
-    replacement = f"/* SyncStart */\n        const gamesData = {json_data};\n        /* SyncEnd */"
+    pattern = r"// SYNC_ZONE_START.*?// SYNC_ZONE_END"
+    replacement = f"// SYNC_ZONE_START\n        const gamesData = {json_data};\n        // SYNC_ZONE_END"
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     
@@ -58,8 +56,8 @@ def update_html(games):
 
 if __name__ == "__main__":
     data = get_stats()
-    if data and len(data) > 0:
+    if data:
         update_html(data)
-        print(f"SUCCÈS : {len(data)} jeux injectés dans index.html")
+        print(f"SUCCÈS : {len(data)} jeux synchronisés dans index.html")
     else:
-        print("ERREUR : Aucune donnée trouvée sur Exophase")
+        print("ERREUR : Aucune donnée trouvée")
