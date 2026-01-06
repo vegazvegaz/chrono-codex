@@ -149,7 +149,7 @@
             <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher un jeu..."></div>
             <div class="filter-row">
                 <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button></div>
-                <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="launch">Derniers lancements</option><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
+                <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
             </div>
             <div id="collection-list" class="game-list"></div>
         </section>
@@ -158,11 +158,11 @@
             <h1>Aperçu</h1>
             <h2>Activité des 7 derniers jours</h2>
             <div class="insight-card">
-                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">Temps de jeu total</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 18.2H</span></div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">Temps de jeu total</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
                 <div class="week-chart" id="rollingChart"></div>
             </div>
             <h2>Santé de la Collection</h2>
-            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">48.2%</div><div class="health-bar-full"><div style="width:48%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (42)</span><span>EN COURS (18)</span></div></div>
+            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val" id="globalCompVal">--%</div><div class="health-bar-full"><div id="healthFill" style="width:0%; background:var(--accent-pink); height:100%;"></div></div></div>
             <h2>Répartition Écosystème</h2>
             <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
             <h2>L'ADN du Joueur</h2>
@@ -177,16 +177,64 @@
     </nav></div>
 
     <script>
-        const gamesData = [
-            { name: "CrossCode", sH: 45, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1767690000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 85, desc: "Action-RPG rétro néo-futuriste." },
-            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1767500000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée sauvage ultime." },
-            { name: "ELDEN RING", sH: 132.6, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1767600000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 92, desc: "Devenez Seigneur d'Elden." },
-            { name: "Lords of the Fallen", sH: 9.2, pH: 91, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1767580000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Dark fantasy." },
-            { name: "Hades II", sH: 72, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/library_600x900.jpg", last: 1767695000, color: "#00ffcc", dev: "Supergiant Games", rel: 2024, comp: 65, desc: "Défiez le Temps." },
-            { name: "MGS V: The Phantom Pain", sH: 0, pH: 121, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1765000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Infiltration ultime." }
-        ];
-
+        const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyTJy_u0XIazPfP8QjwQLOAI5z9C4tzjv6WmCgg9n9T_QU5t4iH4Ujlzh6gS0FFq7EPRA/exec";
+        let gamesData = [];
         let activePlatform = null;
+
+        // Fonction pour parser les heures (ex: "16h" -> 16, "7m" -> 0.11)
+        function parseTime(val) {
+            if (typeof val === 'number') return val;
+            let str = String(val).toLowerCase();
+            if (str.includes('h')) return parseFloat(str.replace('h', '')) || 0;
+            if (str.includes('m')) return (parseFloat(str.replace('m', '')) / 60) || 0;
+            return parseFloat(str) || 0;
+        }
+
+        async function initUI() {
+            try {
+                const response = await fetch(SHEET_API_URL);
+                const rawData = await response.json();
+                
+                gamesData = rawData.map((g, index) => {
+                    const isSteam = g.platform === "Steam" || (g.platform && g.platform.includes("Steam"));
+                    const isPS = g.platform && (g.platform.includes("PS") || g.platform.includes("PlayStation"));
+                    const h = parseTime(g.hours);
+                    
+                    return {
+                        name: g.name,
+                        sH: isSteam ? h : 0,
+                        pH: isPS ? h : 0,
+                        img: g.img || "https://via.placeholder.com/600x900?text=" + encodeURIComponent(g.name),
+                        last: (Date.now() / 1000) - (index * 3600), // Simulation d'ordre chronologique
+                        color: isSteam ? "#333336" : "#00439C",
+                        dev: g.dev || "Studio",
+                        rel: g.rel || "2024",
+                        comp: (g.status && g.status.includes("Terminé")) ? 100 : 50,
+                        desc: g.genre || "---"
+                    };
+                });
+
+                updateInterface();
+            } catch (error) {
+                console.error("Lien Google Sheets interrompu :", error);
+            }
+        }
+
+        function updateInterface() {
+            const chrono = [...gamesData].sort((a,b) => b.last - a.last);
+            if (chrono.length > 0) {
+                renderFocusCard('current-focus', chrono[0], "DERNIÈRE SESSION");
+                document.getElementById('discover-list').innerHTML = chrono.slice(0, 4).map(game => {
+                    let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
+                    return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${(game.sH+game.pH).toFixed(0)}h</div></div></div>`;
+                }).join('');
+                
+                const best = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH))[0];
+                renderFocusCard('return-focus', best, "VOTRE RECORD");
+            }
+            updateCollectionUI();
+            updateAnalytics();
+        }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
@@ -215,44 +263,48 @@
             const search = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortSelect').value;
             let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform === 'steam' ? 'sH' : 'pH'] > 0) : true));
-            filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH)-(a.sH+a.pH))));
-            const listHtml = filtered.map(game => {
-                const total = (activePlatform === 'steam') ? game.sH : (activePlatform === 'ps5') ? game.pH : (game.sH + game.pH);
-                const rank = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH)).findIndex(rg => rg.name === game.name) + 1;
-                const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
+            filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (b.sH+b.pH)-(a.sH+a.pH)));
+            
+            document.getElementById('collection-list').innerHTML = filtered.map(game => {
+                const total = (game.sH + game.pH);
                 let tags = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
-                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
+                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tags}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div></div></div>`;
             }).join('');
-            document.getElementById('collection-list').innerHTML = listHtml;
+        }
+
+        function renderFocusCard(id, g, label) {
+            const tags = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
+            document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${g.color}"></div><div class="focus-poster"><img src="${g.img}"></div><div class="focus-info"><span class="focus-label">${label}</span><div class="focus-title">${g.name}</div><div style="margin-bottom:8px;">${tags}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">TEMPS TOTAL : ${(g.sH+g.pH).toFixed(0)}H</div></div></div>`;
         }
 
         function renderRollingChart() {
             const container = document.getElementById('rollingChart');
-            let html = '';
-            // Labels de Mardi à Lundi (Hier)
             const labels = ['Mar','Mer','Jeu','Ven','Sam','Dim','Lun'];
             const vals = [1.2, 4.5, 2.1, 0.8, 5.8, 0.6, 3.2]; 
-            for(let i=0; i<7; i++) {
-                const hPerc = (vals[i] / 6) * 100; // Echelle 6h = 100%
-                html += `<div class="bar-container"><span class="bar-val">${vals[i]}h</span><div class="bar ${i>=4 && i<=5?'weekend':''}" style="height:${hPerc}%"></div><span style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
-            }
-            container.innerHTML = html;
+            container.innerHTML = vals.map((val, i) => {
+                const hPerc = (val / 6) * 100;
+                return `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=4 && i<=5?'weekend':''}" style="height:${hPerc}%"></div><span style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
+            }).join('');
+            document.getElementById('rollingTotal').innerText = `TOTAL : 18.2H`;
         }
 
         function updateAnalytics() {
-            let sTotal = 0, pTotal = 0;
-            gamesData.forEach(g => { sTotal += g.sH; pTotal += g.pH; });
-            const total = sTotal + pTotal;
-            document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
-            document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
+            let sT = 0, pT = 0, cT = 0;
+            gamesData.forEach(g => { sT += g.sH; pT += g.pH; if(g.comp === 100) cT++; });
+            const total = sT + pT;
+            document.getElementById('totalSteam').innerText = Math.round(sT) + "h";
+            document.getElementById('totalPS').innerText = Math.round(pT) + "h";
             
-            // Mise à jour de la Répartition Écosystème
-            const pSteam = Math.round((sTotal/total)*100);
-            const pPS = Math.round((pTotal/total)*100);
+            const pSteam = total > 0 ? Math.round((sT/total)*100) : 0;
+            const pPS = total > 0 ? Math.round((pT/total)*100) : 0;
             document.getElementById('percSteam').innerText = pSteam + "%";
             document.getElementById('percPS').innerText = pPS + "%";
             document.getElementById('percSteam').style.height = pSteam + "%";
             document.getElementById('percPS').style.height = pPS + "%";
+            
+            const globComp = gamesData.length > 0 ? Math.round((cT / gamesData.length) * 100) : 0;
+            document.getElementById('globalCompVal').innerText = globComp + "%";
+            document.getElementById('healthFill').style.width = globComp + "%";
         }
 
         function switchPage(id) { 
@@ -263,23 +315,6 @@
             if(id === 'apercu') setTimeout(renderRollingChart, 50);
         }
 
-        function initUI() {
-            const chrono = [...gamesData].sort((a,b) => b.last - a.last);
-            const dateStr = new Date(chrono[0].last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-            const tags = (chrono[0].sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(chrono[0].pH>0?'<span class="chip tag-ps5">PS5</span>':'');
-            
-            document.getElementById('current-focus').innerHTML = `<div onclick="openSheet('${chrono[0].name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${chrono[0].color}"></div><div class="focus-poster"><img src="${chrono[0].img}"></div><div class="focus-info"><span class="focus-label">DERNIÈRE SESSION: ${dateStr}</span><div class="focus-title">${chrono[0].name}</div><div style="margin-bottom:8px;">${tags}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">CUMUL : ${(chrono[0].sH+chrono[0].pH).toFixed(0)}H</div></div></div>`;
-            
-            document.getElementById('discover-list').innerHTML = chrono.slice(0, 4).map(game => {
-                let tagsG = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
-                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${tagsG}</div></div><div class="row-stats"><div class="row-playtime">${(game.sH+game.pH).toFixed(0)}h</div></div></div>`;
-            }).join('');
-            
-            const best = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH))[0];
-            document.getElementById('return-focus').innerHTML = `<div onclick="openSheet('${best.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${best.color}"></div><div class="focus-poster"><img src="${best.img}"></div><div class="focus-info"><span class="focus-label">VOTRE RECORD</span><div class="focus-title">${best.name}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">${(best.sH+best.pH).toFixed(0)} HEURES JOUÉES</div></div></div>`;
-            
-            updateCollectionUI(); updateAnalytics();
-        }
         initUI();
     </script>
 </body>
