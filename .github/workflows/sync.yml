@@ -23,5 +23,5 @@ jobs:
           git config --global user.name 'ChronoBot'
           git config --global user.email 'bot@chronocodex.com'
           git add data.js
-          git commit -m "Auto-sync stats" || exit 0
+          git commit -m "Auto-sync multi-platform data" || exit 0
           git push
