@@ -103,10 +103,19 @@
 
         <section id="apercu" class="page">
             <h1>Aperçu</h1>
-            <div class="insight-card"><span class="bento-label">Activité 7j (6h=100%)</span><div class="week-chart" id="rollingChart"></div></div>
-            <div class="insight-card"><span class="bento-label">Santé de la Collection</span><div class="insight-val" id="globalCompVal">--%</div><div class="health-bar-full"><div id="compTerm" style="background:var(--accent-pink); height:100%;"></div><div id="compCours" style="background:var(--accent-blue); height:100%;"></div></div></div>
-            <div class="insight-card"><span class="bento-label">ADN DU JOUEUR</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim);">Ton pic d'activité est entre 22h et 02h.</p></div>
-            <div class="insight-card" id="fidelite-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;"><div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img id="fid-img" src="" style="width:100%; height:100%; object-fit:cover;"></div><div><span class="bento-label">Le plus joué</span><div id="fid-title" style="font-size:16px; font-weight:800; margin-top:4px;">---</div></div></div>
+            <h2>Activité des 7 derniers jours</h2>
+            <div class="insight-card"><div class="week-chart" id="rollingChart"></div></div>
+            <h2>Santé de la Collection</h2>
+            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val" id="globalCompVal">--%</div><div class="health-bar-full"><div id="compTerm" style="background:var(--accent-pink); height:100%;"></div><div id="compCours" style="background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span id="txtTerm">TERMINÉS</span><span id="txtCours">EN COURS</span></div></div>
+            <h2>L'ADN du Joueur</h2>
+            <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">Pic d'activité maximal le Samedi soir.</p></div>
+            <h2>Répartition Écosystème</h2>
+            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div></div>
+            <h2>Record de Fidélité</h2>
+            <div class="insight-card" id="fidelite-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;">
+                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img id="fid-img" src="" style="width:100%; height:100%; object-fit:cover;"></div>
+                <div><span class="bento-label">Le plus joué</span><div id="fid-title" style="font-size:16px; font-weight:800; margin-top:4px;">---</div></div>
+            </div>
         </section>
     </main>
 
@@ -117,9 +126,9 @@
     </nav></div>
 
     <script>
-        /* SyncStart */
-        const gamesData = [{"name": "CrossCode", "sH": 45, "pH": 0, "img": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", "last": 1736100000, "color": "#45b1e8", "comp": 15, "desc": "Initialisation en cours."}];
-        /* SyncEnd */
+        // SYNC_ZONE_START
+        const gamesData = [{"name": "CrossCode", "sH": 45, "pH": 0, "img": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", "last": 1736100000, "color": "#45b1e8", "comp": 15, "desc": "Design V136 restauré."}];
+        // SYNC_ZONE_END
 
         function initUI() {
             if(gamesData.length > 0) {
@@ -132,7 +141,7 @@
             const total = (g.sH || 0) + (g.pH || 0);
             const rank = [...gamesData].sort((a,b) => ((b.sH||0)+(b.pH||0)) - ((a.sH||0)+(a.pH||0))).findIndex(x => x.name === g.name) + 1;
             const medal = rank === 1 ? '🏅' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-            return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${g.img}"></div><div class="row-info"><div class="row-title">${g.name}</div><div>${g.sH>0?'<span class="chip tag-steam">STEAM</span>':''}${g.pH>0?'<span class="chip tag-ps5">PS5</span>':''}</div></div><div class="row-stats"><div class="row-playtime">${Math.round(total)}h</div><div class="row-rank">${medal} #${rank}</div></div></div>`;
+            return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${g.img}"></div><div class="row-info"><div class="row-title">${g.name}</div><div>${(g.sH||0)>0?'<span class="chip tag-steam">STEAM</span>':''}${(g.pH||0)>0?'<span class="chip tag-ps5">PS5</span>':''}</div></div><div class="row-stats"><div class="row-playtime">${Math.round(total)}h</div><div class="row-rank">${medal} #${rank}</div></div></div>`;
         }
         function renderFocusCard(id, g, label) {
             document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${g.color}"></div><div class="focus-poster"><img src="${g.img}"></div><div class="focus-info"><span class="focus-label">${label}</span><div class="focus-title">${g.name}</div><div style="font-size:11px; font-weight:700;">TOTAL : ${Math.round((g.sH||0)+(g.pH||0))}H</div></div></div>`;
@@ -162,8 +171,16 @@
             document.getElementById('globalCompVal').innerText = Math.round((term/totalS)*100) + "%";
             document.getElementById('compTerm').style.width = (term/totalS)*100 + "%";
             document.getElementById('compCours').style.width = (cours/totalS)*100 + "%";
-            const topFid = [...gamesData].sort((a,b) => ((b.sH||0)+(b.pH||0))-((a.sH||0)+(a.pH||0)))[0];
+            document.getElementById('txtTerm').innerText = "TERMINÉS ("+term+")";
+            document.getElementById('txtCours').innerText = "EN COURS ("+cours+")";
+            const sorted = [...gamesData].sort((a,b) => ((b.sH||0)+(b.pH||0))-((a.sH||0)+(a.pH||0)));
+            const topFid = sorted[0];
             if(topFid) { document.getElementById('fid-img').src = topFid.img; document.getElementById('fid-title').innerText = topFid.name; document.getElementById('fidelite-card').onclick = () => openSheet(topFid.name); }
+            const totalT = s + p || 1;
+            document.getElementById('percSteam').innerText = Math.round((s/totalT)*100) + "%";
+            document.getElementById('percPS').innerText = Math.round((p/totalT)*100) + "%";
+            document.getElementById('percSteam').style.height = (s/totalT)*100 + "%";
+            document.getElementById('percPS').style.height = (p/totalT)*100 + "%";
         }
         function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); document.getElementById('nav-'+id).classList.add('active'); window.scrollTo(0,0); if(id === 'apercu') setTimeout(renderRollingChart, 50); }
         function updateCollectionUI() { const search = document.getElementById('searchInput').value.toLowerCase(); document.getElementById('collection-list').innerHTML = gamesData.filter(g => g.name.toLowerCase().includes(search)).map(g => createGameRow(g)).join(''); }
