@@ -11,7 +11,6 @@ def get_stats():
         response = requests.get(URL, headers=headers, timeout=30)
         soup = BeautifulSoup(response.text, 'html.parser')
         games = []
-
         for item in soup.select('.item.game'):
             try:
                 name = item.select_one('h3 a').text.strip()
@@ -20,34 +19,37 @@ def get_stats():
                     if 'Hours' in li.text:
                         h_match = re.search(r"(\d+\.?\d*)", li.text.replace(',', ''))
                         if h_match: hours = float(h_match.group(1))
-                
                 comp = 0
                 prog = item.select_one('.progress-bar span')
                 if prog and 'style' in prog.attrs:
                     c_match = re.search(r"width:\s*(\d+)%", prog['style'])
                     if c_match: comp = int(c_match.group(1))
-                
                 platform = str(item.select_one('.platform-icon')['class']).lower()
                 is_steam = 'steam' in platform
                 img = item.select_one('.game-image img')['src']
-
                 games.append({
                     "name": name, "sH": hours if is_steam else 0, "pH": 0 if is_steam else hours,
                     "img": img, "last": 1736150000, "color": "#45b1e8" if is_steam else "#00439C",
-                    "dev": "Sync", "rel": 2025, "comp": comp, 
-                    "desc": f"Temps de jeu : {hours}h."
+                    "dev": "Sync", "rel": 2025, "comp": comp, "desc": f"Stats réelles."
                 })
             except: continue
-        
         games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
         return games
     except Exception as e:
         print(f"Erreur : {e}")
         return None
 
+def update_html(games):
+    with open('index.html', 'r', encoding='utf-8') as f:
+        content = f.read()
+    json_data = json.dumps(games, indent=12, ensure_ascii=False)
+    new_data_block = f"// MARKER_START\n        const gamesData = {json_data};\n        // MARKER_END"
+    updated_content = re.sub(r"// MARKER_START.*?// MARKER_END", new_data_block, content, flags=re.DOTALL)
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(updated_content)
+
 if __name__ == "__main__":
     data = get_stats()
     if data:
-        with open('data.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        print(f"OK : {len(data)} jeux sauvegardés dans data.json")
+        update_html(data)
+        print(f"OK : {len(data)} jeux injectés dans index.html")
