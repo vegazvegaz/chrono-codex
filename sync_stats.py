@@ -12,9 +12,14 @@ def get_stats():
         soup = BeautifulSoup(response.text, 'html.parser')
         games = []
 
+        # Ciblage précis des blocs de jeux
         for item in soup.select('.item.game'):
             try:
-                name = item.select_one('h3 a').text.strip()
+                name_tag = item.select_one('h3 a')
+                if not name_tag: continue
+                name = name_tag.text.strip()
+                
+                # Heures
                 stats_list = item.select('.game-stats li')
                 hours = 0
                 for li in stats_list:
@@ -22,28 +27,37 @@ def get_stats():
                         found = re.findall(r"(\d+\.?\d*)", li.text.replace(',', ''))
                         if found: hours = float(found[0])
                 
+                # Complétion
                 comp = 0
                 prog = item.select_one('.progress-bar span')
                 if prog and 'style' in prog.attrs:
                     comp_match = re.search(r"width:\s*(\d+)%", prog['style'])
                     if comp_match: comp = int(comp_match.group(1))
                 
+                # Plateforme
                 platform_icon = str(item.select_one('.platform-icon')['class']).lower()
                 is_steam = 'steam' in platform_icon
                 img = item.select_one('.game-image img')['src']
 
                 games.append({
-                    "name": name, "sH": hours if is_steam else 0, "pH": 0 if is_steam else hours,
-                    "img": img, "last": 1736100000, "color": "#45b1e8" if is_steam else "#00439C",
+                    "name": name, 
+                    "sH": hours if is_steam else 0, 
+                    "pH": 0 if is_steam else hours,
+                    "img": img, 
+                    "last": 1736100000, 
+                    "color": "#45b1e8" if is_steam else "#00439C",
                     "dev": "Exophase Sync", "rel": 2025, "comp": comp, 
-                    "desc": f"Synchronisé depuis ton profil Exophase. Tu as joué {hours}h à ce titre."
+                    "desc": f"Tu as passé {hours}h sur ce titre."
                 })
-            except: continue
+            except Exception as e:
+                print(f"Erreur sur {name}: {e}")
+                continue
         
+        # Tri par heures cumulées
         games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
         return games
     except Exception as e:
-        print(f"ERREUR : {e}")
+        print(f"ERREUR GÉNÉRALE : {e}")
         return None
 
 def update_html(games):
@@ -51,7 +65,7 @@ def update_html(games):
         content = f.read()
 
     json_data = json.dumps(games, indent=4, ensure_ascii=False)
-    # On utilise un regex précis pour ne pas se tromper d'espace
+    # Regex strict pour trouver les balises sans erreur
     pattern = r"// START_DATA.*?// END_DATA"
     new_block = f"// START_DATA\n        const gamesData = {json_data};\n        // END_DATA"
     updated_content = re.sub(pattern, new_block, content, flags=re.DOTALL)
@@ -61,6 +75,8 @@ def update_html(games):
 
 if __name__ == "__main__":
     new_games = get_stats()
-    if new_games:
+    if new_games and len(new_games) > 0:
         update_html(new_games)
-        print(f"SUCCÈS : {len(new_games)} jeux injectés dans index.html !")
+        print(f"SUCCÈS : {len(new_games)} jeux synchronisés !")
+    else:
+        print("ERREUR : Aucun jeu trouvé sur Exophase.")
