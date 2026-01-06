@@ -10,7 +10,11 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000000; --accent-pink: #FF4B7D; --accent-blue: #0A84FF; --text-dim: #8E8E93; --radius-lg: 32px; --radius-md: 20px; --chip-steam: #333336; --chip-ps5: #00439C; --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15); }
+        :root {
+            --bg: #000000; --accent-pink: #FF4B7D; --accent-blue: #0A84FF; --text-dim: #8E8E93;
+            --radius-lg: 32px; --radius-md: 20px; --chip-steam: #333336; --chip-ps5: #00439C;
+            --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15);
+        }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: #FFFFFF; font-family: 'SF Pro Display', sans-serif; margin: 0; padding-bottom: 140px; overflow-x: hidden; }
         .bg-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(255, 75, 125, 0.08), transparent 45%); z-index: -1; filter: blur(80px); }
@@ -19,6 +23,7 @@
         .page.active { display: block; opacity: 1; transform: translateY(0); }
         h1 { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; margin: 25px 0 20px 0; }
         h2 { font-size: 18px; font-weight: 800; margin: 35px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.9); }
+        .date { font-size: 10px; font-weight: 800; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; display: block; padding-top: 20px; }
         .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; }
         .bento-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 15px; display: flex; flex-direction: column; justify-content: center; }
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
@@ -30,6 +35,7 @@
         .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
         .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
         .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
+        .game-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .game-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
         .row-poster { width: 60px; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
         .row-poster img { width: 100%; height: 100%; object-fit: cover; }
@@ -38,7 +44,6 @@
         .chip { font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; color: #FFF; margin-right: 4px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
-        .row-stats { flex-shrink: 0; text-align: right; }
         .row-playtime { font-size: 18px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 10px; font-weight: 800; color: var(--text-dim); margin-top: 4px; }
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
@@ -59,31 +64,35 @@
         .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
         .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
+        .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
+        .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
     <div class="bg-glow"></div>
     <div id="sheet-overlay" onclick="closeSheet()"></div>
     <div id="game-sheet">
+        <div style="width:40px;height:5px;background:rgba(255,255,255,0.2);border-radius:10px;margin:-5px auto 25px;"></div>
         <div class="sh-halo" id="sh-halo"></div>
         <div class="sh-poster-box"><img id="sh-img" src="" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center; margin-bottom:10px;"></div>
+        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center; margin-bottom:10px;">Game</div>
         <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;"></div>
-        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px;">
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:25px; border:1px solid rgba(255,255,255,0.05);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:9px; font-weight:900; color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
             <div class="sh-comp-bar"><div class="sh-comp-fill" id="sh-comp-fill" style="width:0%"></div></div>
         </div>
-        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); text-align:justify; margin-top:20px;"></p>
+        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); text-align:justify; margin-bottom:25px;"></p>
     </div>
 
     <main>
         <section id="accueil" class="page active">
-            <h1>Accueil</h1>
+            <span class="date">Lundi 5 Janvier 2026</span><h1>Accueil</h1>
             <div class="bento-grid">
-                <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
-                <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🎮</span><span class="bento-label">PSN</span><div class="bento-val" id="totalPS" style="color:var(--accent-blue);">0h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">19.2h</div></div>
-                <div class="bento-card" style="grid-column: span 4;"><span class="bento-label">Statut</span><div class="bento-val">Synchronisé</div></div>
+                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
+                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🎮</span><span class="bento-label">PSN</span><div class="bento-val" style="color:var(--accent-blue);" id="totalPS">0h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🕰️</span><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">19.2h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏪</span><span class="bento-label">Hier</span><div class="bento-val">2.8h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏰</span><span class="bento-label">Aujourd'hui</span><div class="bento-val" style="color:var(--accent-blue);">4.5h</div></div>
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
             <h2>Derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
@@ -93,7 +102,7 @@
         <section id="collection" class="page">
             <h1>Collection</h1>
             <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px;">
-                <input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher..." style="background:none; border:none; color:white; width:100%; outline:none;">
+                <input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher..." style="background:none; border:none; color:white; width:100%; outline:none; font-weight:600;">
             </div>
             <div id="collection-list" class="game-list"></div>
         </section>
@@ -118,14 +127,25 @@
     </main>
 
     <div class="nav-container"><nav class="nav">
-        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active">ACCUEIL</a>
-        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link">COLLECTION</a>
-        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link">APERÇU</a>
+        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="nav-label">ACCUEIL</span>
+        </a>
+        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <span class="nav-label">COLLECTION</span>
+        </a>
+        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span class="nav-label">APERÇU</span>
+        </a>
     </nav></div>
 
     <script>
         // START_DATA
-        const gamesData = [{ name: "Initialisation...", sH: 0, pH: 0, img: "", last: 0, color: "#8E8E93", comp: 0, desc: "Le robot arrive." }];
+        const gamesData = [
+            { name: "Initialisation...", sH: 0, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1736100000, color: "#45b1e8", comp: 15, desc: "Le robot arrive..." }
+        ];
         // END_DATA
 
         function initUI() {
@@ -180,7 +200,7 @@
             document.getElementById('compTerm').style.width = (term/totalS)*100 + "%";
             document.getElementById('compCours').style.width = (cours/totalS)*100 + "%";
         }
-        function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+        function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); document.getElementById('nav-'+id).classList.add('active'); }
         function updateCollectionUI() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             document.getElementById('collection-list').innerHTML = gamesData.filter(g => g.name.toLowerCase().includes(search)).map(g => createGameRow(g)).join('');
