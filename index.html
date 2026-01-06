@@ -10,11 +10,7 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #000000; --accent-pink: #FF4B7D; --accent-blue: #0A84FF; --text-dim: #8E8E93;
-            --radius-lg: 32px; --radius-md: 20px; --chip-steam: #333336; --chip-ps5: #00439C;
-            --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15);
-        }
+        :root { --bg: #000000; --accent-pink: #FF4B7D; --accent-blue: #0A84FF; --text-dim: #8E8E93; --radius-lg: 32px; --radius-md: 20px; --chip-steam: #333336; --chip-ps5: #00439C; --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: #FFFFFF; font-family: 'SF Pro Display', sans-serif; margin: 0; padding-bottom: 140px; overflow-x: hidden; }
         .bg-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(255, 75, 125, 0.08), transparent 45%); z-index: -1; filter: blur(80px); }
@@ -27,7 +23,7 @@
         .bento-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 15px; display: flex; flex-direction: column; justify-content: center; }
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
         .bento-label { font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-        .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
+        .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 15px; cursor: pointer; }
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
         .focus-info { flex-grow: 1; z-index: 2; }
@@ -42,7 +38,8 @@
         .chip { font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; color: #FFF; margin-right: 4px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
-        .row-playtime { font-size: 18px; font-weight: 800; color: #FFF; }
+        .row-stats { flex-shrink: 0; text-align: right; }
+        .row-playtime { font-size: 18px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 10px; font-weight: 800; color: var(--text-dim); margin-top: 4px; }
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
@@ -59,8 +56,8 @@
         .sh-comp-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 10px 0; overflow: hidden; }
         .sh-comp-fill { height: 100%; background: var(--accent-pink); }
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
-        .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); }
-        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; }
+        .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
     </style>
 </head>
@@ -69,14 +66,14 @@
     <div id="sheet-overlay" onclick="closeSheet()"></div>
     <div id="game-sheet">
         <div class="sh-halo" id="sh-halo"></div>
-        <div class="sh-poster-box"><img id="sh-img" src=""></div>
-        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center;"></div>
-        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin:15px 0;"></div>
+        <div class="sh-poster-box"><img id="sh-img" src="" style="width:100%; height:100%; object-fit:cover;"></div>
+        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center; margin-bottom:10px;"></div>
+        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;"></div>
         <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px;">
-            <div style="display:flex; justify-content:space-between; font-size:9px; font-weight:900;"><span style="color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
-            <div class="sh-comp-bar"><div class="sh-comp-fill" id="sh-comp-fill"></div></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:9px; font-weight:900; color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
+            <div class="sh-comp-bar"><div class="sh-comp-fill" id="sh-comp-fill" style="width:0%"></div></div>
         </div>
-        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); margin-top:20px;"></p>
+        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); text-align:justify; margin-top:20px;"></p>
     </div>
 
     <main>
@@ -85,11 +82,11 @@
             <div class="bento-grid">
                 <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
                 <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🎮</span><span class="bento-label">PSN</span><div class="bento-val" id="totalPS" style="color:var(--accent-blue);">0h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-label">7j.</span><div class="bento-val" style="color:var(--accent-pink);">18.2h</div></div>
-                <div class="bento-card" style="grid-column: span 4;"><span class="bento-label">Statut</span><div class="bento-val">Connecté</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">19.2h</div></div>
+                <div class="bento-card" style="grid-column: span 4;"><span class="bento-label">Statut</span><div class="bento-val">Synchronisé</div></div>
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
-            <h2>Récemment joué</h2><div id="discover-list" class="game-list"></div>
+            <h2>Derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
             <button onclick="switchPage('collection')" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">VOIR MA COLLECTION</button>
         </section>
 
@@ -108,6 +105,11 @@
                 <div class="week-chart" id="rollingChart"></div>
             </div>
             <div class="insight-card">
+                <span class="bento-label">Santé de la Collection</span>
+                <div class="insight-val" id="globalCompVal">--%</div>
+                <div class="health-bar-full"><div id="compTerm" style="background:var(--accent-pink); height:100%;"></div><div id="compCours" style="background:var(--accent-blue); height:100%;"></div></div>
+            </div>
+            <div class="insight-card">
                 <span class="bento-label">ADN DU JOUEUR</span>
                 <div class="insight-val">Oiseau de Nuit 🦉</div>
                 <p style="font-size:12px; color:var(--text-dim);">Ton pic d'activité est entre 22h et 02h.</p>
@@ -123,7 +125,7 @@
 
     <script>
         // START_DATA
-        const gamesData = [{ name: "Synchronisation...", sH: 0, pH: 0, img: "", last: 0, color: "#8E8E93", comp: 0, desc: "Le robot arrive." }];
+        const gamesData = [{ name: "Initialisation...", sH: 0, pH: 0, img: "", last: 0, color: "#8E8E93", comp: 0, desc: "Le robot arrive." }];
         // END_DATA
 
         function initUI() {
@@ -133,7 +135,6 @@
                 updateCollectionUI(); renderRollingChart(); updateAnalytics();
             }
         }
-
         function createGameRow(g) {
             const total = g.sH + g.pH;
             const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(x => x.name === g.name) + 1;
@@ -145,7 +146,6 @@
                 <div class="row-stats"><div class="row-playtime">${Math.round(total)}h</div><div class="row-rank">${medal} #${rank}</div></div>
             </div>`;
         }
-
         function renderFocusCard(id, g, label) {
             document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;">
                 <div class="focus-aura" style="--aura-color:${g.color}"></div>
@@ -153,7 +153,6 @@
                 <div class="focus-info"><span class="focus-label">${label}</span><div class="focus-title">${g.name}</div><div style="font-size:11px; font-weight:700;">TOTAL : ${Math.round(g.sH+g.pH)}H</div></div>
             </div>`;
         }
-
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
             document.getElementById('sh-img').src = g.img;
@@ -162,23 +161,25 @@
             document.getElementById('sh-comp-text').innerText = g.comp+"%";
             document.getElementById('sh-comp-fill').style.width = g.comp+"%";
             document.getElementById('sh-halo').style.setProperty('--sheet-color', g.color);
+            document.getElementById('sh-chips').innerHTML = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
             document.getElementById('sheet-overlay').style.display='block';
             setTimeout(()=>{document.getElementById('sheet-overlay').style.opacity='1'; document.getElementById('game-sheet').style.transform='translateY(0)';},10);
         }
-
         function closeSheet() { document.getElementById('sheet-overlay').style.opacity='0'; document.getElementById('game-sheet').style.transform='translateY(100%)'; setTimeout(()=>document.getElementById('sheet-overlay').style.display='none',300); }
-
         function renderRollingChart() {
             const values = [1.2, 4.5, 0.8, 5.8, 2.1, 3.2, 1.4];
-            document.getElementById('rollingChart').innerHTML = values.map((v, i) => `<div class="bar-container"><span class="bar-val">${v}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${(v/6)*100}%"></div></div>`).join('');
+            document.getElementById('rollingChart').innerHTML = values.map((v, i) => `<div class="bar-container"><span class="bar-val" style="font-size:9px; font-weight:800; color:#FFF; margin-bottom:4px;">${v}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${(v/6)*100}%"></div></div>`).join('');
         }
-
         function updateAnalytics() {
-            let s=0, p=0; gamesData.forEach(g=>{s+=g.sH; p+=g.pH;});
+            let s=0, p=0, term=0, cours=0;
+            gamesData.forEach(g=>{s+=g.sH; p+=g.pH; if(g.comp>=95) term++; else if(g.comp>0) cours++;});
             document.getElementById('totalSteam').innerText = Math.round(s)+'h';
             document.getElementById('totalPS').innerText = Math.round(p)+'h';
+            const totalS = term + cours || 1;
+            document.getElementById('globalCompVal').innerText = Math.round((term/totalS)*100) + "%";
+            document.getElementById('compTerm').style.width = (term/totalS)*100 + "%";
+            document.getElementById('compCours').style.width = (cours/totalS)*100 + "%";
         }
-
         function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
         function updateCollectionUI() {
             const search = document.getElementById('searchInput').value.toLowerCase();
