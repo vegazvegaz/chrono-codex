@@ -60,7 +60,6 @@
         .row-info { flex-grow: 1; padding: 0 18px; overflow: hidden; }
         .row-title { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; letter-spacing: -0.5px; }
         
-        /* CHIPS CORRIGÉS */
         .chip { display: inline-block; font-size: 8px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: #FFF; margin-right: 6px; line-height: 1; vertical-align: middle; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
@@ -105,7 +104,6 @@
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
         .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
         .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
-        .cta-full { width: 100%; padding: 20px; background: var(--accent-pink); border: none; border-radius: 24px; color: white; font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -142,7 +140,7 @@
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
             <h2>Dernières activités</h2><div id="discover-list" class="game-list"></div>
-            <button class="cta-full" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
+            <button class="cta-full" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
             <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
         </section>
 
@@ -165,6 +163,8 @@
             </div>
             <h2>Santé de la Collection</h2>
             <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">48.2%</div><div class="health-bar-full"><div style="width:48%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (42)</span><span>EN COURS (18)</span></div></div>
+            <h2>Répartition Écosystème</h2>
+            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
             <h2>L'ADN du Joueur</h2>
             <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">72% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
         </section>
@@ -178,9 +178,9 @@
 
     <script>
         const gamesData = [
-            { name: "CrossCode", sH: 45, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1767690000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 85, desc: "Action-RPG rétro néo-futuriste exceptionnel." },
-            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1767500000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée sauvage ultime en Amérique." },
-            { name: "ELDEN RING", sH: 132.6, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1767600000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 92, desc: "Seigneur d'Elden." },
+            { name: "CrossCode", sH: 45, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368340/library_600x900.jpg", last: 1767690000, color: "#45b1e8", dev: "Radical Fish Games", rel: 2018, comp: 85, desc: "Action-RPG rétro néo-futuriste." },
+            { name: "Red Dead Redemption 2", sH: 27.8, pH: 317, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/library_600x900.jpg", last: 1767500000, color: "#cc0000", dev: "Rockstar Games", rel: 2018, comp: 100, desc: "L'épopée sauvage ultime." },
+            { name: "ELDEN RING", sH: 132.6, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/library_600x900.jpg", last: 1767600000, color: "#ffaa00", dev: "FromSoftware", rel: 2022, comp: 92, desc: "Devenez Seigneur d'Elden." },
             { name: "Lords of the Fallen", sH: 9.2, pH: 91, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1501750/library_600x900.jpg", last: 1767580000, color: "#6a0dad", dev: "HEXWORKS", rel: 2023, comp: 100, desc: "Dark fantasy." },
             { name: "Hades II", sH: 72, pH: 0, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/library_600x900.jpg", last: 1767695000, color: "#00ffcc", dev: "Supergiant Games", rel: 2024, comp: 65, desc: "Défiez le Temps." },
             { name: "MGS V: The Phantom Pain", sH: 0, pH: 121, img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg", last: 1765000000, color: "#1b2c3a", dev: "Kojima Productions", rel: 2015, comp: 100, desc: "Infiltration ultime." }
@@ -229,12 +229,11 @@
         function renderRollingChart() {
             const container = document.getElementById('rollingChart');
             let html = '';
-            // Aujourd'hui = Mardi 6 Jan 2026. 
-            // Hier = Lundi 5 Jan. On remonte sur 7 jours à partir d'hier.
+            // Labels de Mardi à Lundi (Hier)
             const labels = ['Mar','Mer','Jeu','Ven','Sam','Dim','Lun'];
-            const vals = [1.2, 4.5, 2.1, 0.8, 5.8, 0.6, 3.2]; // Total 18.2h
+            const vals = [1.2, 4.5, 2.1, 0.8, 5.8, 0.6, 3.2]; 
             for(let i=0; i<7; i++) {
-                const hPerc = (vals[i] / 6) * 100; // Echelle 6h = 100% conservée en tête
+                const hPerc = (vals[i] / 6) * 100; // Echelle 6h = 100%
                 html += `<div class="bar-container"><span class="bar-val">${vals[i]}h</span><div class="bar ${i>=4 && i<=5?'weekend':''}" style="height:${hPerc}%"></div><span style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
             }
             container.innerHTML = html;
@@ -243,8 +242,17 @@
         function updateAnalytics() {
             let sTotal = 0, pTotal = 0;
             gamesData.forEach(g => { sTotal += g.sH; pTotal += g.pH; });
+            const total = sTotal + pTotal;
             document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
             document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
+            
+            // Mise à jour de la Répartition Écosystème
+            const pSteam = Math.round((sTotal/total)*100);
+            const pPS = Math.round((pTotal/total)*100);
+            document.getElementById('percSteam').innerText = pSteam + "%";
+            document.getElementById('percPS').innerText = pPS + "%";
+            document.getElementById('percSteam').style.height = pSteam + "%";
+            document.getElementById('percPS').style.height = pPS + "%";
         }
 
         function switchPage(id) { 
