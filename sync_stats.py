@@ -8,6 +8,7 @@ URL = "https://www.exophase.com/user/vegazvegaz/"
 def get_stats():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     try:
+        print("Connexion à Exophase...")
         response = requests.get(URL, headers=headers, timeout=30)
         soup = BeautifulSoup(response.text, 'html.parser')
         games = []
@@ -30,34 +31,18 @@ def get_stats():
                 games.append({
                     "name": name, "sH": hours if is_steam else 0, "pH": 0 if is_steam else hours,
                     "img": img, "last": 1736150000, "color": "#45b1e8" if is_steam else "#00439C",
-                    "dev": "Sync", "rel": 2025, "comp": comp, "desc": "Stats réelles Exophase."
+                    "dev": "Sync Auto", "rel": 2025, "comp": comp, "desc": "Données synchronisées via Exophase."
                 })
             except: continue
-        if games:
-            games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
-            return games
+        games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
+        return games
     except Exception as e:
         print(f"Erreur Sync : {e}")
-    return None
-
-def update_html(games):
-    with open('index.html', 'r', encoding='utf-8') as f:
-        content = f.read()
-    
-    # Remplacement ciblé entre les marqueurs SYNC_ZONE
-    json_data = json.dumps(games, ensure_ascii=False)
-    pattern = r"// SYNC_ZONE_START.*?// SYNC_ZONE_END"
-    replacement = f"// SYNC_ZONE_START\n        const gamesData = {json_data};\n        // SYNC_ZONE_END"
-    
-    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-    
-    with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(new_content)
+        return None
 
 if __name__ == "__main__":
     data = get_stats()
     if data:
-        update_html(data)
-        print(f"SUCCÈS : {len(data)} jeux synchronisés dans index.html")
-    else:
-        print("ERREUR : Aucune donnée trouvée")
+        with open('data.js', 'w', encoding='utf-8') as f:
+            f.write(f"const gamesData = {json.dumps(data, indent=4, ensure_ascii=False)};")
+        print(f"OK : {len(data)} jeux sauvegardés dans data.js")
