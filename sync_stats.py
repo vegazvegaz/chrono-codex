@@ -2,47 +2,77 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+import time
 
-URL = "https://www.exophase.com/user/vegazvegaz/"
+# ON DÉFINIT LES DEUX SOURCES SÉPARÉMENT
+URLS = {
+    "playstation": "https://www.exophase.com/user/vegazvegaz/?platform=playstation",
+    "steam": "https://www.exophase.com/user/vegazvegaz/?platform=steam"
+}
 
-def get_stats():
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+def fetch_platform(platform, url):
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
     try:
-        print("Connexion à Exophase...")
-        response = requests.get(URL, headers=headers, timeout=30)
+        print(f"Extraction {platform}...")
+        response = requests.get(url, headers=headers, timeout=20)
         soup = BeautifulSoup(response.text, 'html.parser')
-        games = []
+        results = []
+        
         for item in soup.select('.item.game'):
             try:
                 name = item.select_one('h3 a').text.strip()
                 hours = 0
                 for li in item.select('.game-stats li'):
                     if 'Hours' in li.text:
-                        h_match = re.search(r"(\d+\.?\d*)", li.text.replace(',', ''))
-                        if h_match: hours = float(h_match.group(1))
+                        h_match = re.findall(r"(\d+\.?\d*)", li.text.replace(',', ''))
+                        if h_match: hours = float(h_match[0])
+                
                 comp = 0
                 prog = item.select_one('.progress-bar span')
                 if prog and 'style' in prog.attrs:
                     c_match = re.search(r"width:\s*(\d+)%", prog['style'])
                     if c_match: comp = int(c_match.group(1))
-                platform = str(item.select_one('.platform-icon')['class']).lower()
-                is_steam = 'steam' in platform
+                
                 img = item.select_one('.game-image img')['src']
-                games.append({
-                    "name": name, "sH": hours if is_steam else 0, "pH": 0 if is_steam else hours,
-                    "img": img, "last": 1736150000, "color": "#45b1e8" if is_steam else "#00439C",
-                    "dev": "Sync Auto", "rel": 2025, "comp": comp, "desc": "Données synchronisées via Exophase."
+                
+                results.append({
+                    "name": name,
+                    "sH": hours if platform == "steam" else 0,
+                    "pH": hours if platform == "playstation" else 0,
+                    "img": img,
+                    "last": int(time.time()),
+                    "color": "#45b1e8" if platform == "steam" else "#00439C",
+                    "comp": comp,
+                    "desc": f"Donnée synchronisée via {platform.upper()}."
                 })
             except: continue
-        games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
-        return games
+        return results
     except Exception as e:
-        print(f"Erreur Sync : {e}")
-        return None
+        print(f"Erreur sur {platform}: {e}")
+        return []
 
 if __name__ == "__main__":
-    data = get_stats()
-    if data:
+    all_games = []
+    
+    # 1. On récupère Steam
+    steam_data = fetch_platform("steam", URLS["steam"])
+    # 2. On récupère PSN
+    psn_data = fetch_platform("playstation", URLS["playstation"])
+    
+    # 3. Fusion (Si un jeu est sur les deux, on cumule)
+    merged = {}
+    for g in steam_data + psn_data:
+        name = g["name"]
+        if name not in merged:
+            merged[name] = g
+        else:
+            merged[name]["sH"] += g["sH"]
+            merged[name]["pH"] += g["pH"]
+    
+    final_list = list(merged.values())
+    final_list.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
+    
+    if final_list:
         with open('data.js', 'w', encoding='utf-8') as f:
-            f.write(f"const gamesData = {json.dumps(data, indent=4, ensure_ascii=False)};")
-        print(f"OK : {len(data)} jeux sauvegardés dans data.js")
+            f.write(f"const gamesData = {json.dumps(final_list, indent=4, ensure_ascii=False)};")
+        print(f"Félicitations : {len(final_list)} jeux fusionnés dans data.js")
