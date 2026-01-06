@@ -30,26 +30,36 @@ def get_stats():
                 games.append({
                     "name": name, "sH": hours if is_steam else 0, "pH": 0 if is_steam else hours,
                     "img": img, "last": 1736150000, "color": "#45b1e8" if is_steam else "#00439C",
-                    "dev": "Sync", "rel": 2025, "comp": comp, "desc": f"Stats réelles."
+                    "dev": "Sync", "rel": 2025, "comp": comp, "desc": "Stats réelles Exophase."
                 })
             except: continue
-        games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
-        return games
+        
+        # Tri et retour
+        if games:
+            games.sort(key=lambda x: (x["sH"] + x["pH"]), reverse=True)
+            return games
     except Exception as e:
         print(f"Erreur : {e}")
-        return None
+    return None
 
 def update_html(games):
     with open('index.html', 'r', encoding='utf-8') as f:
         content = f.read()
-    json_data = json.dumps(games, indent=12, ensure_ascii=False)
-    new_data_block = f"// MARKER_START\n        const gamesData = {json_data};\n        // MARKER_END"
-    updated_content = re.sub(r"// MARKER_START.*?// MARKER_END", new_data_block, content, flags=re.DOTALL)
+    
+    # Injection stricte entre les marqueurs SyncStart et SyncEnd
+    json_data = json.dumps(games, ensure_ascii=False)
+    pattern = r"/\* SyncStart \*/.*?/\* SyncEnd \*/"
+    replacement = f"/* SyncStart */\n        const gamesData = {json_data};\n        /* SyncEnd */"
+    
+    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+    
     with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(updated_content)
+        f.write(new_content)
 
 if __name__ == "__main__":
     data = get_stats()
-    if data:
+    if data and len(data) > 0:
         update_html(data)
-        print(f"OK : {len(data)} jeux injectés dans index.html")
+        print(f"SUCCÈS : {len(data)} jeux injectés dans index.html")
+    else:
+        print("ERREUR : Aucune donnée trouvée sur Exophase")
