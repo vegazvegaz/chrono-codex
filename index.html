@@ -4,44 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chrono Codex</title>
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Chrono Codex">
     <link rel="apple-touch-icon" href="icon.png">
-
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000000;
-            --accent-pink: #FF4B7D;
-            --accent-blue: #0A84FF;
-            --text-dim: #8E8E93;
-            --radius-lg: 32px;
-            --radius-md: 20px;
-            --chip-steam: #333336;
-            --chip-ps5: #00439C;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --bg: #000000; --accent-pink: #FF4B7D; --accent-blue: #0A84FF; --text-dim: #8E8E93;
+            --radius-lg: 32px; --radius-md: 20px; --chip-steam: #333336; --chip-ps5: #00439C;
+            --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15);
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: #FFFFFF; font-family: 'SF Pro Display', sans-serif; margin: 0; padding-bottom: 140px; overflow-x: hidden; }
         .bg-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(255, 75, 125, 0.08), transparent 45%); z-index: -1; filter: blur(80px); }
         main { padding: 0 15px; max-width: 500px; margin: 0 auto; width: 100%; }
-        
         .page { display: none; opacity: 0; transform: translateY(10px); transition: 0.4s ease; }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
-
         h1 { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; margin: 25px 0 20px 0; }
         h2 { font-size: 18px; font-weight: 800; margin: 35px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.9); }
-        .date { font-size: 10px; font-weight: 800; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; display: block; padding-top: 20px; }
-
         .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; }
         .bento-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 15px; display: flex; flex-direction: column; justify-content: center; }
         .bento-val { font-size: 20px; font-weight: 800; line-height: 1; }
         .bento-label { font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-
         .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
@@ -49,8 +34,6 @@
         .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
         .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
         .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
-
-        .game-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .game-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
         .row-poster { width: 60px; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
         .row-poster img { width: 100%; height: 100%; object-fit: cover; }
@@ -59,9 +42,8 @@
         .chip { font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; color: #FFF; margin-right: 4px; }
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
-        .row-playtime { font-size: 18px; font-weight: 800; color: #FFF; line-height: 1; }
+        .row-playtime { font-size: 18px; font-weight: 800; color: #FFF; }
         .row-rank { font-size: 10px; font-weight: 800; color: var(--text-dim); margin-top: 4px; }
-
         .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
         .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
         .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding: 10px 0; margin-top: 10px; }
@@ -70,220 +52,137 @@
         .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.9; min-height: 4px; }
         .bar.weekend { background: var(--accent-pink); }
         .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
-
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
         #game-sheet { position: fixed; bottom: 0; left: 0; width: 100%; height: 88vh; background: #080808; border-radius: 32px 32px 0 0; z-index: 9001; transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.3, 0, 0.2, 1); overflow-y: auto; padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
         .sh-halo { position: absolute; top: -10%; left: 0; width: 100%; height: 40%; background: radial-gradient(circle at center, var(--sheet-color, var(--accent-pink)) 0%, transparent 75%); filter: blur(60px); opacity: 0.4; z-index: -1; }
         .sh-poster-box { width: 160px; aspect-ratio: 2/3; border-radius: 18px; overflow: hidden; margin: 0 auto 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); }
         .sh-comp-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 10px 0; overflow: hidden; }
         .sh-comp-fill { height: 100%; background: var(--accent-pink); }
-        .sh-grid-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
-        .sh-meta-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
-
-        .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
-        .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
-        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
-        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
-        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
-        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
-
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
-        .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
-        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; transition: 0.3s; }
+        .nav { pointer-events: auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--glass-bg); backdrop-filter: blur(30px) saturate(180%); border-radius: 40px; border: 1px solid var(--glass-border); }
+        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 58px; border-radius: 32px; }
         .nav-link.active { color: var(--accent-pink); background: rgba(255, 75, 125, 0.08); }
-        .nav-link svg { width: 22px; height: 22px; margin-bottom: 4px; }
-        .nav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
     <div class="bg-glow"></div>
     <div id="sheet-overlay" onclick="closeSheet()"></div>
     <div id="game-sheet">
-        <div style="width:40px;height:5px;background:rgba(255,255,255,0.2);border-radius:10px;margin:-5px auto 25px;"></div>
         <div class="sh-halo" id="sh-halo"></div>
-        <div class="sh-poster-box"><img id="sh-img" src="" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center; margin-bottom:10px;">Game</div>
-        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;"></div>
-        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:25px; border:1px solid rgba(255,255,255,0.05);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:9px; font-weight:900; color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
-            <div class="sh-comp-bar"><div class="sh-comp-fill" id="sh-comp-fill" style="width:0%"></div></div>
+        <div class="sh-poster-box"><img id="sh-img" src=""></div>
+        <div id="sh-title" style="font-size:32px; font-weight:800; text-align:center;"></div>
+        <div id="sh-chips" style="display:flex; justify-content:center; gap:8px; margin:15px 0;"></div>
+        <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px;">
+            <div style="display:flex; justify-content:space-between; font-size:9px; font-weight:900;"><span style="color:var(--accent-pink);">COMPLÉTION</span><b id="sh-comp-text">0%</b></div>
+            <div class="sh-comp-bar"><div class="sh-comp-fill" id="sh-comp-fill"></div></div>
         </div>
-        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); text-align:justify; margin-bottom:25px;"></p>
-        <div class="sh-grid-meta">
-            <div class="sh-meta-item"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Studio</span><div id="sh-dev" style="font-weight:700;">--</div></div>
-            <div class="sh-meta-item"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Sortie</span><div id="sh-rel" style="font-weight:700;">--</div></div>
-            <div class="sh-meta-item"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Heures</span><div id="sh-hours" style="font-weight:700;">0h</div></div>
-            <div class="sh-meta-item"><span style="font-size:8px; color:var(--text-dim); text-transform:uppercase;">Rang</span><div id="sh-rank" style="font-weight:700;">#0</div></div>
-        </div>
+        <p id="sh-desc" style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.7); margin-top:20px;"></p>
     </div>
 
     <main>
         <section id="accueil" class="page active">
-            <span class="date">Lundi 5 Janvier 2026</span><h1>Accueil</h1>
+            <h1>Accueil</h1>
             <div class="bento-grid">
-                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
-                <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);" id="totalPS">0h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">🕰️</span><span class="bento-label">7 derniers j.</span><div class="bento-val" style="color:var(--accent-pink);">19.2h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏪</span><span class="bento-label">Hier</span><div class="bento-val">2.8h</div></div>
-                <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏰</span><span class="bento-label">Aujourd'hui</span><div class="bento-val" style="color:var(--accent-blue);">4.5h</div></div>
+                <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
+                <div class="bento-card" style="grid-column: span 3;"><span class="bento-emoji">🎮</span><span class="bento-label">PSN</span><div class="bento-val" id="totalPS" style="color:var(--accent-blue);">0h</div></div>
+                <div class="bento-card" style="grid-column: span 2;"><span class="bento-label">7j.</span><div class="bento-val" style="color:var(--accent-pink);">18.2h</div></div>
+                <div class="bento-card" style="grid-column: span 4;"><span class="bento-label">Statut</span><div class="bento-val">Connecté</div></div>
             </div>
             <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
-            <h2>Les 5 derniers jeux joués</h2><div id="discover-list" class="game-list"></div>
+            <h2>Récemment joué</h2><div id="discover-list" class="game-list"></div>
             <button onclick="switchPage('collection')" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">VOIR MA COLLECTION</button>
-            <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
         </section>
 
         <section id="collection" class="page">
             <h1>Collection</h1>
-            <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher..."></div>
-            <div class="filter-row">
-                <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button></div>
-                <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="launch">Derniers lancements</option><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
+            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px;">
+                <input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher..." style="background:none; border:none; color:white; width:100%; outline:none;">
             </div>
             <div id="collection-list" class="game-list"></div>
         </section>
 
         <section id="apercu" class="page">
             <h1>Aperçu</h1>
-            <h2>Activité des 7 derniers jours</h2>
             <div class="insight-card">
-                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">6h = 100% hauteur</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 0H</span></div>
+                <span class="bento-label">Activité 7j (6h=100%)</span>
                 <div class="week-chart" id="rollingChart"></div>
             </div>
-            <h2>Santé de la Collection</h2>
-            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val" id="globalCompVal">--%</div><div class="health-bar-full"><div id="compTerm" style="background:var(--accent-pink); height:100%;"></div><div id="compCours" style="background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span id="txtTerm">TERMINÉS</span><span id="txtCours">EN COURS</span></div></div>
-            <h2>L'ADN du Joueur</h2>
-            <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">68% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
-            <h2>Répartition Écosystème</h2>
-            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
-            <h2>Record de Fidélité</h2>
-            <div class="insight-card" id="fidelite-card" style="display:flex; gap:15px; align-items:center; cursor:pointer;">
-                <div style="width:50px; aspect-ratio:2/3; border-radius:6px; overflow:hidden;"><img id="fid-img" src="" style="width:100%; height:100%; object-fit:cover;"></div>
-                <div><span class="bento-label">Jeu le plus constant</span><div id="fid-title" style="font-size:16px; font-weight:800; margin-top:4px;">---</div><div id="fid-hours" style="font-size:11px; color:var(--accent-pink); font-weight:700; margin-top:2px;">Cumul multi-plateformes : 0h</div></div>
+            <div class="insight-card">
+                <span class="bento-label">ADN DU JOUEUR</span>
+                <div class="insight-val">Oiseau de Nuit 🦉</div>
+                <p style="font-size:12px; color:var(--text-dim);">Ton pic d'activité est entre 22h et 02h.</p>
             </div>
         </section>
     </main>
 
     <div class="nav-container"><nav class="nav">
-        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;margin-bottom:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span class="nav-label">ACCUEIL</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;margin-bottom:4px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg><span class="nav-label">COLLECTION</span></a>
-        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;margin-bottom:4px;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg><span class="nav-label">APERÇU</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('accueil')" id="nav-accueil" class="nav-link active">ACCUEIL</a>
+        <a href="javascript:void(0)" onclick="switchPage('collection')" id="nav-collection" class="nav-link">COLLECTION</a>
+        <a href="javascript:void(0)" onclick="switchPage('apercu')" id="nav-apercu" class="nav-link">APERÇU</a>
     </nav></div>
 
     <script>
         // START_DATA
-        const gamesData = [
-            { name: "Initialisation...", sH: 0, pH: 0, img: "", last: 0, color: "#8E8E93", dev: "Robot", rel: 2026, comp: 0, desc: "Synchronisation en cours..." }
-        ];
+        const gamesData = [{ name: "Synchronisation...", sH: 0, pH: 0, img: "", last: 0, color: "#8E8E93", comp: 0, desc: "Le robot arrive." }];
         // END_DATA
 
-        let activePlatform = null;
+        function initUI() {
+            if(gamesData.length > 0) {
+                renderFocusCard('current-focus', gamesData[0], "MAINTENANT");
+                document.getElementById('discover-list').innerHTML = gamesData.slice(1, 6).map(g => createGameRow(g)).join('');
+                updateCollectionUI(); renderRollingChart(); updateAnalytics();
+            }
+        }
+
+        function createGameRow(g) {
+            const total = g.sH + g.pH;
+            const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(x => x.name === g.name) + 1;
+            const medal = rank === 1 ? '🏅' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+            return `<div class="game-row" onclick="openSheet('${g.name.replace(/'/g, "\\'")}')">
+                <div class="row-poster"><img src="${g.img}"></div>
+                <div class="row-info"><div class="row-title">${g.name}</div>
+                <div>${g.sH>0?'<span class="chip tag-steam">STEAM</span>':''}${g.pH>0?'<span class="chip tag-ps5">PS5</span>':''}</div></div>
+                <div class="row-stats"><div class="row-playtime">${Math.round(total)}h</div><div class="row-rank">${medal} #${rank}</div></div>
+            </div>`;
+        }
+
+        function renderFocusCard(id, g, label) {
+            document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;">
+                <div class="focus-aura" style="--aura-color:${g.color}"></div>
+                <div class="focus-poster"><img src="${g.img}"></div>
+                <div class="focus-info"><span class="focus-label">${label}</span><div class="focus-title">${g.name}</div><div style="font-size:11px; font-weight:700;">TOTAL : ${Math.round(g.sH+g.pH)}H</div></div>
+            </div>`;
+        }
 
         function openSheet(name) {
             const g = gamesData.find(x => x.name === name);
-            const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(x => x.name === name) + 1;
             document.getElementById('sh-img').src = g.img;
             document.getElementById('sh-title').innerText = g.name;
-            document.getElementById('sh-hours').innerText = (g.sH+g.pH).toFixed(0)+"h";
-            document.getElementById('sh-rank').innerText = "#"+rank;
-            document.getElementById('sh-dev').innerText = g.dev || "Studio";
-            document.getElementById('sh-rel').innerText = g.rel || "----";
-            document.getElementById('sh-desc').innerText = g.desc || "---";
-            document.getElementById('sh-comp-text').innerText = (g.comp||0)+"%";
-            document.getElementById('sh-comp-fill').style.width = (g.comp||0)+"%";
+            document.getElementById('sh-desc').innerText = g.desc;
+            document.getElementById('sh-comp-text').innerText = g.comp+"%";
+            document.getElementById('sh-comp-fill').style.width = g.comp+"%";
             document.getElementById('sh-halo').style.setProperty('--sheet-color', g.color);
-            document.getElementById('sh-chips').innerHTML = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
             document.getElementById('sheet-overlay').style.display='block';
             setTimeout(()=>{document.getElementById('sheet-overlay').style.opacity='1'; document.getElementById('game-sheet').style.transform='translateY(0)';},10);
         }
 
         function closeSheet() { document.getElementById('sheet-overlay').style.opacity='0'; document.getElementById('game-sheet').style.transform='translateY(100%)'; setTimeout(()=>document.getElementById('sheet-overlay').style.display='none',300); }
 
-        function togglePlatform(p) { activePlatform = (activePlatform === p) ? null : p; document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active')); if(activePlatform) document.getElementById('chip-'+p).classList.add('active'); updateCollectionUI(); }
-
-        function updateCollectionUI() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const sort = document.getElementById('sortSelect').value;
-            let filtered = gamesData.filter(g => g.name.toLowerCase().includes(search) && (activePlatform ? (g[activePlatform === 'steam' ? 'sH' : 'pH'] > 0) : true));
-            filtered.sort((a,b) => (sort==='alpha'? a.name.localeCompare(b.name) : (sort==='launch'? b.last-a.last : (b.sH+b.pH)-(a.sH+a.pH))));
-            
-            document.getElementById('collection-list').innerHTML = filtered.map(game => {
-                const total = (game.sH + game.pH);
-                const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(rg => rg.name === game.name) + 1;
-                const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
-                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${(game.sH > 0 ? '<span class="chip tag-steam">STEAM</span>' : '') + (game.pH > 0 ? '<span class="chip tag-ps5">PS5</span>' : '')}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
-            }).join('');
-        }
-
-        function renderFocusCard(id, g, label) {
-            const dateStr = g.last ? new Date(g.last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) : "--";
-            document.getElementById(id).innerHTML = `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${g.color}"></div><div class="focus-poster"><img src="${g.img}"></div><div class="focus-info"><span class="focus-label">${label}: ${dateStr}</span><div class="focus-title">${g.name}</div><div>${(g.sH > 0 ? '<span class="chip tag-steam">STEAM</span>' : '') + (g.pH > 0 ? '<span class="chip tag-ps5">PS5</span>' : '')}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim); margin-top:5px;">TOTAL : ${(g.sH+g.pH).toFixed(0)}H</div></div></div>`;
-        }
-
         function renderRollingChart() {
-            const container = document.getElementById('rollingChart');
-            let html = '', total = 0;
-            const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-            const values = [1.5, 4.2, 0.8, 5.5, 3.8, 2.9, 1.2];
-            values.forEach((val, i) => {
-                total += val;
-                html += `<div class="bar-container"><span class="bar-val">${val}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${(val/6)*100}%"></div><span class="bar-label" style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
-            });
-            container.innerHTML = html;
-            document.getElementById('rollingTotal').innerText = `TOTAL : ${total.toFixed(1)}H`;
+            const values = [1.2, 4.5, 0.8, 5.8, 2.1, 3.2, 1.4];
+            document.getElementById('rollingChart').innerHTML = values.map((v, i) => `<div class="bar-container"><span class="bar-val">${v}h</span><div class="bar ${i>=5?'weekend':''}" style="height:${(v/6)*100}%"></div></div>`).join('');
         }
 
         function updateAnalytics() {
-            let sTotal = 0, pTotal = 0, term = 0, cours = 0;
-            gamesData.forEach(g => { 
-                sTotal += g.sH; pTotal += g.pH; 
-                if(g.comp >= 80) term++; else if (g.comp > 0) cours++;
-            });
-            const total = sTotal + pTotal || 1;
-            document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
-            document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
-            document.getElementById('percSteam').innerText = Math.round((sTotal/total)*100) + "%";
-            document.getElementById('percPS').innerText = Math.round((pTotal/total)*100) + "%";
-            document.getElementById('percSteam').style.height = (sTotal/total)*100 + "%";
-            document.getElementById('percPS').style.height = (pTotal/total)*100 + "%";
-            
-            const totalStatus = term + cours || 1;
-            document.getElementById('globalCompVal').innerText = Math.round((term/totalStatus)*100) + "%";
-            document.getElementById('compTerm').style.width = (term/totalStatus)*100 + "%";
-            document.getElementById('compCours').style.width = (cours/totalStatus)*100 + "%";
-            document.getElementById('txtTerm').innerText = "TERMINÉS ("+term+")";
-            document.getElementById('txtCours').innerText = "EN COURS ("+cours+")";
-
-            const topFid = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH))[0];
-            if(topFid) {
-                document.getElementById('fid-img').src = topFid.img;
-                document.getElementById('fid-title').innerText = topFid.name;
-                document.getElementById('fid-hours').innerText = "Cumul multi-plateformes : " + (topFid.sH+topFid.pH).toFixed(1) + "h";
-                document.getElementById('fidelite-card').onclick = () => openSheet(topFid.name);
-            }
+            let s=0, p=0; gamesData.forEach(g=>{s+=g.sH; p+=g.pH;});
+            document.getElementById('totalSteam').innerText = Math.round(s)+'h';
+            document.getElementById('totalPS').innerText = Math.round(p)+'h';
         }
 
-        function switchPage(id) { 
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
-            document.getElementById(id).classList.add('active'); 
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); 
-            document.getElementById('nav-'+id).classList.add('active'); 
-            window.scrollTo(0,0);
-            if(id === 'apercu') setTimeout(renderRollingChart, 50);
-        }
-
-        function initUI() {
-            const chrono = [...gamesData].sort((a,b) => b.last - a.last);
-            renderFocusCard('current-focus', chrono[0], "DERNIÈRE SESSION");
-            document.getElementById('discover-list').innerHTML = chrono.slice(1, 6).map(game => {
-                const total = (game.sH + game.pH);
-                const rank = [...gamesData].sort((a,b) => (b.sH+b.pH)-(a.sH+a.pH)).findIndex(rg => rg.name === game.name) + 1;
-                const rankDisp = (rank <= 3) ? (rank === 1 ? '🏅' : (rank === 2 ? '🥈' : '🥉')) : '';
-                return `<div class="game-row" onclick="openSheet('${game.name.replace(/'/g, "\\'")}')"><div class="row-poster"><img src="${game.img}"></div><div class="row-info"><div class="row-title">${game.name}</div><div>${(game.sH > 0 ? '<span class="chip tag-steam">STEAM</span>' : '') + (game.pH > 0 ? '<span class="chip tag-ps5">PS5</span>' : '')}</div></div><div class="row-stats"><div class="row-playtime">${total.toFixed(0)}h</div><div class="row-rank">${rankDisp} #${rank}</div></div></div>`;
-            }).join('');
-            renderFocusCard('return-focus', gamesData[2] || gamesData[0], "PAS RELANCÉ DEPUIS");
-            updateCollectionUI(); renderRollingChart(); updateAnalytics();
+        function switchPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+        function updateCollectionUI() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            document.getElementById('collection-list').innerHTML = gamesData.filter(g => g.name.toLowerCase().includes(search)).map(g => createGameRow(g)).join('');
         }
         initUI();
     </script>
