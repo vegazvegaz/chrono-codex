@@ -39,7 +39,7 @@
         /* --- BENTO --- */
         .bento-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; }
         .bento-card { position: relative; overflow: hidden; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 15px; display: flex; flex-direction: column; justify-content: center; }
-        .bento-aura { position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; filter: blur(25px); opacity: 0.25; z-index: 0; border-radius: 50%; }
+        .bento-aura { position: absolute; top: -15px; right: -15px; width: 70px; height: 70px; filter: blur(25px); opacity: 0.2; z-index: 0; border-radius: 50%; }
         .bento-emoji, .bento-label, .bento-val { position: relative; z-index: 1; }
         .bento-emoji { font-size: 22px; margin-bottom: 8px; display: block; }
         .bento-label { font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
@@ -66,9 +66,19 @@
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
 
-        .row-stats { flex-shrink: 0; text-align: right; }
+        .row-stats { flex-shrink: 0; text-align: right; z-index: 2; }
         .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
+
+        /* --- APERÇU --- */
+        .insight-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .insight-val { font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF; }
+        .week-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding: 10px 0; margin-top: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .bar-container { display: flex; flex-direction: column; align-items: center; width: 12%; height: 100%; justify-content: flex-end; }
+        .bar-val { font-size: 9px; font-weight: 800; color: #FFF; margin-bottom: 4px; }
+        .bar { width: 100%; background: var(--accent-blue); border-radius: 4px; opacity: 0.9; min-height: 4px; transition: height 0.6s ease; }
+        .bar.weekend { background: var(--accent-pink); }
+        .health-bar-full { width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1); }
 
         /* --- FICHE DÉTAIL --- */
         #sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 9000; display: none; opacity: 0; transition: 0.3s; }
@@ -79,6 +89,15 @@
         .sh-comp-fill { height: 100%; background: var(--accent-pink); }
         .sh-grid-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
         .sh-meta-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* --- COLLECTION TOOLS --- */
+        .search-box { background: rgba(255, 255, 255, 0.06); border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; }
+        .search-box input { background: none; border: none; color: white; margin-left: 10px; font-size: 16px; width: 100%; outline: none; font-weight: 600; }
+        .filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .chip-btn { padding: 8px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-dim); cursor: pointer; transition: 0.3s; }
+        .chip-btn.active.steam { background: var(--chip-steam); color: white; }
+        .chip-btn.active.ps5 { background: var(--chip-ps5); color: white; }
+        .sort-select { background: none; border: none; color: var(--accent-pink); font-size: 11px; font-weight: 800; text-transform: uppercase; outline: none; cursor: pointer; }
 
         /* --- NAVBAR --- */
         .nav-container { position: fixed; bottom: 35px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 5000; pointer-events: none; }
@@ -125,7 +144,7 @@
                     <span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div>
                 </div>
                 <div class="bento-card" style="grid-column: span 3; background: #111113;">
-                    <div class="bento-aura" style="background: #00439C;"></div>
+                    <div class="bento-aura" style="background: var(--chip-ps5);"></div>
                     <span class="bento-emoji">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);" id="totalPS">0h</div>
                 </div>
                 <div class="bento-card" style="grid-column: span 2;">
@@ -142,23 +161,17 @@
                 </div>
             </div>
 
-            <h2>Historique Récent</h2>
-            <div id="discover-list" class="game-list"></div>
-            
+            <h2>Historique Récent</h2><div id="discover-list" class="game-list"></div>
             <button style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
-            
-            <h2>Reprendre la Route</h2>
-            <div id="return-focus" class="focus-card"></div>
+            <h2>Reprendre la Route</h2><div id="return-focus" class="focus-card"></div>
         </section>
 
         <section id="collection" class="page">
             <h1>Collection</h1>
-            <div style="background:rgba(255,255,255,0.06); border-radius:18px; padding:14px 18px; display:flex; align-items:center; border:1px solid rgba(255,255,255,0.1); margin-bottom:25px;">
-                <span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher un jeu..." style="background:none; border:none; color:white; margin-left:10px; font-size:16px; width:100%; outline:none; font-weight:600;">
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <div class="search-box"><span>🔍</span><input type="text" id="searchInput" oninput="updateCollectionUI()" placeholder="Rechercher un jeu..."></div>
+            <div class="filter-row">
                 <div style="display:flex; gap:6px;"><button class="chip-btn steam" id="chip-steam" onclick="togglePlatform('steam')">Steam</button><button class="chip-btn ps5" id="chip-ps5" onclick="togglePlatform('ps5')">PS5</button></div>
-                <select id="sortSelect" onchange="updateCollectionUI()" style="background:none; border:none; color:var(--accent-pink); font-size:11px; font-weight:800; text-transform:uppercase; outline:none; cursor:pointer;"><option value="launch">Derniers lancements</option><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
+                <select class="sort-select" id="sortSelect" onchange="updateCollectionUI()"><option value="launch">Derniers lancements</option><option value="hours">Nombre d'heures</option><option value="alpha">Ordre alphabétique</option></select>
             </div>
             <div id="collection-list" class="game-list"></div>
         </section>
@@ -166,15 +179,16 @@
         <section id="apercu" class="page">
             <h1>Aperçu</h1>
             <h2>Activité des 7 derniers jours</h2>
-            <div style="background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px;">
-                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Temps de jeu total</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;">TOTAL : 18.2H</span></div>
-                <div id="rollingChart" style="display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding: 10px 0; margin-top: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);"></div>
+            <div class="insight-card">
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="bento-label">Temps de jeu total</span><span style="font-size:11px; font-weight:800; color:var(--accent-pink); background:rgba(255,75,125,0.1); padding:4px 8px; border-radius:6px;" id="rollingTotal">TOTAL : 18.2H</span></div>
+                <div class="week-chart" id="rollingChart"></div>
             </div>
-            <div style="background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px;">
-                <span style="font-size: 8px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Complétion Globale</span>
-                <div style="font-size: 32px; font-weight: 800; margin: 10px 0; color: #FFF;">48.2%</div>
-                <div style="width: 100%; height: 10px; display: flex; border-radius: 5px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.1);"><div style="width:48%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div>
-            </div>
+            <h2>Santé de la Collection</h2>
+            <div class="insight-card"><span class="bento-label">Complétion Globale</span><div class="insight-val">48.2%</div><div class="health-bar-full"><div style="width:48%; background:var(--accent-pink); height:100%;"></div><div style="width:12%; background:var(--accent-blue); height:100%;"></div></div><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; color:var(--text-dim);"><span>TERMINÉS (42)</span><span>EN COURS (18)</span></div></div>
+            <h2>Répartition Écosystème</h2>
+            <div class="insight-card"><div style="display:flex; align-items:flex-end; gap:15px; height:100px; margin:10px 0;"><div id="percSteam" style="flex:1; background:var(--chip-steam); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div><div id="percPS" style="flex:1; background:var(--chip-ps5); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;">--%</div></div><div style="display:flex; justify-content:space-around; font-size:9px; font-weight:800; color:var(--text-dim);"><span>STEAM</span><span>PLAYSTATION</span></div></div>
+            <h2>L'ADN du Joueur</h2>
+            <div class="insight-card"><span class="bento-label">Chronotype</span><div class="insight-val">Oiseau de Nuit 🦉</div><p style="font-size:12px; color:var(--text-dim); line-height:1.5;">72% de tes succès débloqués entre 22h et 02h. Pic d'activité maximal le Samedi soir.</p></div>
         </section>
     </main>
 
@@ -252,6 +266,12 @@
             const total = sTotal + pTotal;
             document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
             document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
+            const pSteam = Math.round((sTotal/total)*100);
+            const pPS = Math.round((pTotal/total)*100);
+            document.getElementById('percSteam').innerText = pSteam + "%";
+            document.getElementById('percPS').innerText = pPS + "%";
+            document.getElementById('percSteam').style.height = pSteam + "%";
+            document.getElementById('percPS').style.height = pPS + "%";
         }
 
         function switchPage(id) { 
