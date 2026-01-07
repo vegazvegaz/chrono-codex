@@ -47,8 +47,8 @@
         .focus-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0,0,0,0.4)); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; margin-bottom: 10px; cursor: pointer; }
         .focus-poster { width: 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .focus-poster img { width: 100%; height: 100%; object-fit: cover; }
-        .focus-info { flex-grow: 1; z-index: 2; }
-        .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; }
+        .focus-info { flex-grow: 1; z-index: 2; overflow: hidden; }
+        .focus-title { font-size: 22px; font-weight: 800; margin: 4px 0 10px 0; letter-spacing: -0.5px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .focus-label { font-size: 9px; font-weight: 900; color: var(--accent-pink); letter-spacing: 1px; text-transform: uppercase; }
         .focus-aura { position: absolute; top: -20%; right: -10%; width: 150px; height: 150px; background: var(--aura-color, var(--accent-pink)); filter: blur(50px); opacity: 0.15; z-index: 1; border-radius: 50%; }
 
@@ -64,7 +64,7 @@
         .tag-steam { background: var(--chip-steam); }
         .tag-ps5 { background: var(--chip-ps5); }
 
-        .row-stats { flex-shrink: 0; text-align: right; }
+        .row-stats { flex-shrink: 0; text-align: right; z-index: 2; }
         .row-playtime { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1; }
         .row-rank { font-size: 11px; font-weight: 800; color: var(--text-dim); margin-top: 6px; text-transform: uppercase; }
 
@@ -131,6 +131,11 @@
     <main>
         <section id="accueil" class="page active">
             <span class="date">Mardi 6 Janvier 2026</span><h1>Accueil</h1>
+            
+            <h2>Le jeu en cours</h2>
+            <div id="current-focus" class="focus-card"></div>
+
+            <h2>Statistiques</h2>
             <div class="bento-grid">
                 <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🖥️</span><span class="bento-label">Steam</span><div class="bento-val" id="totalSteam">0h</div></div>
                 <div class="bento-card" style="grid-column: span 3; background: #111113;"><span class="bento-emoji">🎮</span><span class="bento-label">Playstation</span><div class="bento-val" style="color:var(--accent-blue);" id="totalPS">0h</div></div>
@@ -138,7 +143,7 @@
                 <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏪</span><span class="bento-label">Hier</span><div class="bento-val">3.2h</div></div>
                 <div class="bento-card" style="grid-column: span 2;"><span class="bento-emoji">⏰</span><span class="bento-label">Aujourd'hui</span><div class="bento-val" style="color:var(--accent-blue);">1.2h</div></div>
             </div>
-            <h2>Le jeu en cours</h2><div id="current-focus" class="focus-card"></div>
+
             <h2>Dernières activités</h2><div id="discover-list" class="game-list"></div>
             <button class="cta-full" style="width:100%; padding:20px; background:var(--accent-pink); border:none; border-radius:24px; color:white; font-size:13px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; margin-top:10px;" onclick="switchPage('collection')">VOIR MA COLLECTION</button>
             <h2>On y retourne ?</h2><div id="return-focus" class="focus-card"></div>
@@ -229,11 +234,10 @@
         function renderRollingChart() {
             const container = document.getElementById('rollingChart');
             let html = '';
-            // Labels de Mardi à Lundi (Hier)
             const labels = ['Mar','Mer','Jeu','Ven','Sam','Dim','Lun'];
             const vals = [1.2, 4.5, 2.1, 0.8, 5.8, 0.6, 3.2]; 
             for(let i=0; i<7; i++) {
-                const hPerc = (vals[i] / 6) * 100; // Echelle 6h = 100%
+                const hPerc = (vals[i] / 6) * 100;
                 html += `<div class="bar-container"><span class="bar-val">${vals[i]}h</span><div class="bar ${i>=4 && i<=5?'weekend':''}" style="height:${hPerc}%"></div><span style="font-size:8px; color:var(--text-dim); margin-top:4px;">${labels[i]}</span></div>`;
             }
             container.innerHTML = html;
@@ -245,8 +249,6 @@
             const total = sTotal + pTotal;
             document.getElementById('totalSteam').innerText = Math.round(sTotal) + "h";
             document.getElementById('totalPS').innerText = Math.round(pTotal) + "h";
-            
-            // Mise à jour de la Répartition Écosystème
             const pSteam = Math.round((sTotal/total)*100);
             const pPS = Math.round((pTotal/total)*100);
             document.getElementById('percSteam').innerText = pSteam + "%";
@@ -263,12 +265,28 @@
             if(id === 'apercu') setTimeout(renderRollingChart, 50);
         }
 
+        function renderFocusCardTemplate(g, label, dateStr) {
+            const tags = (g.sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(g.pH>0?'<span class="chip tag-ps5">PS5</span>':'');
+            return `<div onclick="openSheet('${g.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;">
+                <div class="focus-aura" style="--aura-color:${g.color}"></div>
+                <div class="focus-poster"><img src="${g.img}"></div>
+                <div class="focus-info">
+                    <span class="focus-label">${label}: ${dateStr}</span>
+                    <div class="focus-title">${g.name}</div>
+                    <div>${tags}</div>
+                </div>
+                <div class="row-stats">
+                    <div class="row-playtime">${(g.sH+g.pH).toFixed(0)}h</div>
+                </div>
+            </div>`;
+        }
+
         function initUI() {
             const chrono = [...gamesData].sort((a,b) => b.last - a.last);
-            const dateStr = new Date(chrono[0].last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-            const tags = (chrono[0].sH>0?'<span class="chip tag-steam">STEAM</span>':'')+(chrono[0].pH>0?'<span class="chip tag-ps5">PS5</span>':'');
+            const lastDate = new Date(chrono[0].last*1000).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
             
-            document.getElementById('current-focus').innerHTML = `<div onclick="openSheet('${chrono[0].name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${chrono[0].color}"></div><div class="focus-poster"><img src="${chrono[0].img}"></div><div class="focus-info"><span class="focus-label">DERNIÈRE SESSION: ${dateStr}</span><div class="focus-title">${chrono[0].name}</div><div style="margin-bottom:8px;">${tags}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">CUMUL : ${(chrono[0].sH+chrono[0].pH).toFixed(0)}H</div></div></div>`;
+            // MAJ LE JEU EN COURS (Stats à droite)
+            document.getElementById('current-focus').innerHTML = renderFocusCardTemplate(chrono[0], "DERNIÈRE SESSION", lastDate);
             
             document.getElementById('discover-list').innerHTML = chrono.slice(0, 4).map(game => {
                 let tagsG = (game.sH > 0 ? `<span class="chip tag-steam">STEAM</span>` : '') + (game.pH > 0 ? `<span class="chip tag-ps5">PS5</span>` : '');
@@ -276,9 +294,9 @@
             }).join('');
             
             const best = [...gamesData].sort((a,b) => (b.sH+b.pH) - (a.sH+a.pH))[0];
-            document.getElementById('return-focus').innerHTML = `<div onclick="openSheet('${best.name.replace(/'/g, "\\'")}')" style="width:100%; display:flex; align-items:center; gap:20px; position:relative;"><div class="focus-aura" style="--aura-color:${best.color}"></div><div class="focus-poster"><img src="${best.img}"></div><div class="focus-info"><span class="focus-label">VOTRE RECORD</span><div class="focus-title">${best.name}</div><div style="font-size:11px; font-weight:700; color:var(--text-dim)">${(best.sH+best.pH).toFixed(0)} HEURES JOUÉES</div></div></div>`;
+            document.getElementById('return-focus').innerHTML = renderFocusCardTemplate(best, "VOTRE RECORD", "Tous temps");
             
-            updateCollectionUI(); updateAnalytics();
+            updateCollectionUI(); renderRollingChart(); updateAnalytics();
         }
         initUI();
     </script>
